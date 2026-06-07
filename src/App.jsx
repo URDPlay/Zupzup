@@ -1,0 +1,513 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
+  Map, AlertTriangle, CheckCircle, Network, Power, 
+  Radio, Database, Cpu, HardDrive, BellRing
+} from 'lucide-react';
+import HomePage from './HomePage';
+import './index.css';
+
+// --- MOCK DATA & SIMULATION LOGIC ---
+const INITIAL_TRAINS = [
+  { id: 'TR-101', x: 10, y: 50, speed: 120, direction: 'East', risk: 0, status: 'safe' },
+  { id: 'TR-102', x: 90, y: 50, speed: 110, direction: 'West', risk: 0, status: 'safe' },
+  { id: 'TR-205', x: 50, y: 10, speed: 90, direction: 'South', risk: 0, status: 'safe' }
+];
+
+const generateLog = (type, message) => ({
+  id: Date.now() + Math.random(),
+  time: new Date().toLocaleTimeString(),
+  type,
+  message
+});
+
+export default function App() {
+  const [page, setPage] = useState('home');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [trains, setTrains] = useState(INITIAL_TRAINS);
+  const [alerts, setAlerts] = useState([]);
+  const [aiLogs, setAiLogs] = useState([]);
+  const [aiEnabled, setAiEnabled] = useState(true);
+  const [systemHealth, setSystemHealth] = useState(100);
+
+  // Simulation Loop — only runs when on the app page
+  useEffect(() => {
+    if (page !== 'app') return;
+    const interval = setInterval(() => {
+      setTrains(prevTrains => {
+        let newTrains = [...prevTrains];
+        
+        // Move trains
+        newTrains[0].x += (newTrains[0].speed / 100) * (newTrains[0].status === 'stopped' ? 0 : 1);
+        newTrains[1].x -= (newTrains[1].speed / 100) * (newTrains[1].status === 'stopped' ? 0 : 1);
+        newTrains[2].y += (newTrains[2].speed / 100) * (newTrains[2].status === 'stopped' ? 0 : 1);
+
+        // Reset positions for infinite loop demo
+        if (newTrains[0].x > 100) newTrains[0].x = 0;
+        if (newTrains[1].x < 0) newTrains[1].x = 100;
+        if (newTrains[2].y > 100) newTrains[2].y = 0;
+
+        // Calculate distance and risk between TR-101 and TR-102
+        const dist = Math.abs(newTrains[0].x - newTrains[1].x);
+        
+        if (dist < 15 && dist > 0) {
+          // Collision imminent
+          newTrains[0].risk = 95;
+          newTrains[1].risk = 95;
+          newTrains[0].status = 'danger';
+          newTrains[1].status = 'danger';
+
+          if (aiEnabled) {
+            newTrains[0].status = 'stopped';
+            newTrains[1].status = 'stopped';
+            newTrains[0].speed = 0;
+            newTrains[1].speed = 0;
+            
+            addAlert('danger', 'CRITICAL: Head-on collision predicted. Auto-Braking Engaged.');
+            addAiLog('action', 'Engaged Emergency Brakes on TR-101 and TR-102. Risk > 80%.');
+          } else {
+             addAlert('danger', 'CRITICAL: Collision predicted in 12s! Manual intervention required!');
+          }
+        } else if (dist < 30 && dist >= 15) {
+          // Warning zone
+          newTrains[0].risk = 65;
+          newTrains[1].risk = 65;
+          newTrains[0].status = 'warning';
+          newTrains[1].status = 'warning';
+          
+          addAlert('warning', 'WARNING: Trains approaching same sector. Distance decreasing.');
+          addAiLog('prediction', `Risk score increased to 65%. Monitoring speed.`);
+        } else {
+          // Safe
+          newTrains[0].risk = 5;
+          newTrains[1].risk = 5;
+          newTrains[0].status = 'safe';
+          newTrains[1].status = 'safe';
+        }
+
+        return newTrains;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [aiEnabled, page]);
+
+  const addAlert = (type, message) => {
+    setAlerts(prev => {
+      if (prev.length > 0 && prev[0].message === message) return prev;
+      return [generateLog(type, message), ...prev].slice(0, 5);
+    });
+  };
+
+  const addAiLog = (type, message) => {
+    setAiLogs(prev => {
+      if (prev.length > 0 && prev[0].message === message) return prev;
+      return [generateLog(type, message), ...prev].slice(0, 8);
+    });
+  };
+
+  const handleManualStop = () => {
+    setTrains(prev => prev.map(t => ({ ...t, speed: 0, status: 'stopped' })));
+    addAlert('danger', 'MANUAL OVERRIDE: All trains stopped by operator.');
+    addAiLog('system', 'Manual override activated.');
+  };
+
+  const handleRestart = () => {
+    setTrains(INITIAL_TRAINS);
+    setAlerts([]);
+    setAiLogs([generateLog('system', 'System Reset. AI Monitoring Resumed.')]);
+  };
+
+  // ← Homepage early return is AFTER all hooks
+  if (page === 'home') {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="homepage"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{ width: '100%' }}
+        >
+          <HomePage onLaunch={() => setPage('app')} />
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard': return <DashboardScreen trains={trains} alerts={alerts} aiLogs={aiLogs} systemHealth={systemHealth} />;
+      case 'alerts': return <AlertScreen alerts={alerts} />;
+      case 'trains': return <TrainDetailScreen trains={trains} />;
+      case 'control': return <ControlPanel aiEnabled={aiEnabled} setAiEnabled={setAiEnabled} onStop={handleManualStop} onRestart={handleRestart} />;
+      case 'architecture': return <ArchitectureScreen />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="flex-row" style={{ height: '100vh', width: '100vw' }} id="app-root">
+      {/* SIDEBAR */}
+      <aside className="sidebar" id="main-sidebar" aria-label="Main Navigation">
+        <div className="sidebar-logo">
+          <ShieldAlert className="text-primary" size={28} aria-hidden="true" />
+          <span>Zero-Collision IS</span>
+        </div>
+        
+        <nav className="flex-col gap-2 mt-4" aria-label="Sidebar Menu">
+          <NavItem id="nav-dashboard" icon={<LayoutDashboard aria-hidden="true" />} label="Dashboard" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} />
+          <NavItem id="nav-alerts" icon={<BellRing aria-hidden="true" />} label="Alerts" active={activeTab === 'alerts'} onClick={() => setActiveTab('alerts')} />
+          <NavItem id="nav-trains" icon={<Train aria-hidden="true" />} label="Train Details" active={activeTab === 'trains'} onClick={() => setActiveTab('trains')} />
+          <NavItem id="nav-control" icon={<Settings aria-hidden="true" />} label="Control Panel" active={activeTab === 'control'} onClick={() => setActiveTab('control')} />
+        </nav>
+        <div style={{ marginTop: 'auto', padding: '16px 24px', borderTop: '1px solid var(--border-color)' }}>
+          <button
+            id="nav-back-home"
+            onClick={() => setPage('home')}
+            style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-muted)', borderRadius: '8px', padding: '10px 16px', width: '100%', cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s' }}
+            onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-color)'; e.currentTarget.style.color = 'var(--primary)'; }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
+          >
+            ← Back to Home
+          </button>
+        </div>
+      </aside>
+
+      {/* MAIN CONTENT */}
+      <main className="main-content" id="main-content" role="main">
+        <header className="topbar" id="app-header">
+          <div className="flex-row items-center gap-4">
+             <h1 className="text-xl font-bold" id="page-title">Smart Railway Control</h1>
+             <div className="badge badge-success flex-row items-center gap-2" role="status" aria-live="polite">
+               <CheckCircle size={14} aria-hidden="true" /> System Online
+             </div>
+          </div>
+          <div className="flex-row items-center gap-6">
+            <div className="flex-row items-center gap-2 text-sm text-muted">
+               <Activity size={16} aria-hidden="true" /> Heartbeat: Stable
+            </div>
+            <div className="font-medium text-sm">
+               {new Date().toLocaleTimeString()}
+            </div>
+          </div>
+        </header>
+
+        <section className="dashboard-container" id="dashboard-view" aria-labelledby="page-title">
+           <AnimatePresence mode="wait">
+             <motion.div 
+               key={activeTab}
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
+               transition={{ duration: 0.2 }}
+               className="w-full flex-1"
+             >
+               {renderContent()}
+             </motion.div>
+           </AnimatePresence>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function NavItem({ icon, label, active, onClick, id }) {
+  return (
+    <button id={id} className={`nav-item ${active ? 'active' : ''}`} onClick={onClick} aria-pressed={active} style={{ background: 'transparent', textAlign: 'left', width: '100%', borderRadius: 0, padding: '12px 24px', justifyContent: 'flex-start' }}>
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+}
+
+// --- SCREENS ---
+function DashboardScreen({ trains, alerts, aiLogs, systemHealth }) {
+  return (
+    <div className="grid-cols-12 w-full">
+      {/* Top Cards */}
+      <div className="col-span-12 grid-cols-3">
+         <div className="card flex-row items-center gap-4">
+            <div className="icon-box bg-primary-light text-primary">
+              <Train size={24} />
+            </div>
+            <div>
+              <div className="text-sm text-muted">Active Trains</div>
+              <div className="text-2xl font-bold">{trains.length}</div>
+            </div>
+         </div>
+         <div className="card flex-row items-center gap-4">
+            <div className="icon-box bg-success-light text-success">
+              <Activity size={24} />
+            </div>
+            <div>
+              <div className="text-sm text-muted">System Health</div>
+              <div className="text-2xl font-bold">{systemHealth}%</div>
+            </div>
+         </div>
+         <div className="card flex-row items-center gap-4">
+            <div className="icon-box bg-danger-light text-danger">
+              <AlertTriangle size={24} />
+            </div>
+            <div>
+              <div className="text-sm text-muted">Active Threats</div>
+              <div className="text-2xl font-bold">{trains.filter(t => t.risk > 50).length}</div>
+            </div>
+         </div>
+      </div>
+
+      {/* Map Area */}
+      <div className="col-span-8 card">
+        <h2 className="text-lg font-bold mb-4 flex-row items-center gap-2">
+          <Map size={20} className="text-primary"/> Live Tracking Map
+        </h2>
+        <div className="map-container">
+           <div className="map-track"></div>
+           <div className="map-track-vertical"></div>
+           
+           {trains.map(train => (
+             <motion.div 
+               key={train.id}
+               className={`train-marker ${train.status === 'danger' ? 'pulse bg-danger-light text-danger border-danger' : train.status === 'warning' ? 'bg-warning-light text-warning border-warning' : 'bg-success-light text-success border-success'}`}
+               style={{ left: `${train.x}%`, top: `${train.y}%`, backgroundColor: train.status === 'danger' ? 'var(--danger)' : train.status === 'warning' ? 'var(--warning)' : 'var(--success)', color: 'white' }}
+               animate={{ left: `${train.x}%`, top: `${train.y}%` }}
+               transition={{ ease: "linear", duration: 1 }}
+             >
+                <Train size={16} />
+             </motion.div>
+           ))}
+        </div>
+      </div>
+
+      {/* Side Panels */}
+      <div className="col-span-4 flex-col gap-6">
+         <div className="card flex-1">
+           <h2 className="text-lg font-bold mb-4">AI Decision Engine</h2>
+           <div className="flex-col gap-2">
+             {aiLogs.length === 0 && <div className="text-muted text-sm">No recent actions.</div>}
+             {aiLogs.map(log => (
+               <div key={log.id} className="ai-log-item flex-col gap-2">
+                 <div className="flex-row justify-between items-center text-xs text-muted">
+                    <span className="font-bold text-primary" style={{ textTransform: 'uppercase' }}>{log.type}</span>
+                    <span>{log.time}</span>
+                 </div>
+                 <div className="text-sm font-medium">{log.message}</div>
+               </div>
+             ))}
+           </div>
+         </div>
+      </div>
+    </div>
+  );
+}
+
+function AlertScreen({ alerts }) {
+  return (
+    <div className="card" style={{ minHeight: '60vh', padding: '32px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
+        <h2 className="text-xl font-bold flex-row items-center gap-2 text-danger">
+          <ShieldAlert size={28} /> System Event Logs
+        </h2>
+        <span className="badge badge-success">System Active</span>
+      </div>
+      
+      <div className="flex-col gap-4">
+        {alerts.length === 0 ? (
+          <div className="text-center text-muted flex-col items-center justify-center gap-2" style={{ padding: '60px 20px', backgroundColor: 'var(--bg-color)', borderRadius: '8px', border: '1px dashed var(--border-color)' }}>
+            <CheckCircle size={48} className="text-success mb-2" />
+            <h3 className="font-bold text-lg text-main">All Systems Nominal</h3>
+            <p>The railway network is currently operating safely. No active threats detected.</p>
+          </div>
+        ) : (
+          alerts.map(alert => (
+            <div key={alert.id} className="alert-item" style={{ 
+              backgroundColor: alert.type === 'danger' ? '#FEF2F2' : '#FFFBEB',
+              border: '1px solid',
+              borderColor: alert.type === 'danger' ? '#FCA5A5' : '#FDE047',
+              borderRadius: '12px',
+              padding: '20px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+            }}>
+              <div style={{ 
+                backgroundColor: alert.type === 'danger' ? '#FEE2E2' : '#FEF3C7',
+                color: alert.type === 'danger' ? 'var(--danger)' : '#D97706',
+                padding: '12px',
+                borderRadius: '50%',
+                height: '48px',
+                width: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                {alert.type === 'danger' ? <AlertTriangle size={24} /> : <Activity size={24} />}
+              </div>
+              <div className="flex-1">
+                <div className="flex-row justify-between items-center mb-1">
+                  <span className="font-bold" style={{ 
+                    color: alert.type === 'danger' ? '#991B1B' : '#92400E',
+                    fontSize: '13px',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {alert.type === 'danger' ? 'CRITICAL ALERT' : 'WARNING'}
+                  </span>
+                  <span className="text-xs text-muted font-medium">{alert.time}</span>
+                </div>
+                <p className="font-bold text-lg" style={{ color: 'var(--text-main)', marginTop: '4px' }}>
+                  {alert.message}
+                </p>
+                {alert.type === 'danger' && (
+                  <div style={{ 
+                    marginTop: '16px', 
+                    padding: '16px', 
+                    backgroundColor: 'white', 
+                    borderRadius: '8px', 
+                    border: '1px solid #E5E7EB',
+                    borderLeft: '4px solid var(--primary)',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                  }}>
+                    <span className="text-xs font-bold text-muted" style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>Automated AI Action Taken:</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                      <CheckCircle size={18} className="text-primary" />
+                      <p className="text-sm font-bold text-main">Engaged Auto-Braking & Cut Signal Power</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TrainDetailScreen({ trains }) {
+  return (
+    <div className="grid-cols-3 w-full">
+      {trains.map(train => (
+        <div key={train.id} className="card">
+          <div className="flex-row justify-between items-center mb-4 pb-3" style={{ borderBottom: '1px solid var(--border-color)' }}>
+            <h3 className="text-lg font-bold flex-row items-center gap-2">
+              <Train className="text-primary"/> {train.id}
+            </h3>
+            <span className={`badge ${train.status === 'danger' ? 'badge-danger' : train.status === 'warning' ? 'badge-warning' : 'badge-success'}`}>
+              {train.status.toUpperCase()}
+            </span>
+          </div>
+          
+          <div className="flex-col gap-3 text-sm">
+            <div className="flex-row justify-between">
+              <span className="text-muted">Speed</span>
+              <span className="font-bold">{train.speed} km/h</span>
+            </div>
+            <div className="flex-row justify-between">
+              <span className="text-muted">Direction</span>
+              <span className="font-bold">{train.direction}</span>
+            </div>
+            <div className="flex-row justify-between">
+              <span className="text-muted">Coordinates</span>
+              <span style={{ fontFamily: 'monospace' }}>{train.x.toFixed(1)}, {train.y.toFixed(1)}</span>
+            </div>
+            
+            <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border-color)' }}>
+              <div className="flex-row justify-between items-center mb-2">
+                <span className="text-muted font-bold">Collision Risk</span>
+                <span className={`font-bold ${train.risk > 80 ? 'text-danger' : train.risk > 50 ? 'text-warning' : 'text-success'}`}>
+                  {train.risk}%
+                </span>
+              </div>
+              <div style={{ width: '100%', backgroundColor: '#E0E0E0', borderRadius: '4px', height: '10px' }}>
+                <div 
+                  style={{ height: '10px', borderRadius: '4px', width: `${train.risk}%`, backgroundColor: train.risk > 80 ? 'var(--danger)' : train.risk > 50 ? 'var(--warning)' : 'var(--success)' }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ControlPanel({ aiEnabled, setAiEnabled, onStop, onRestart }) {
+  return (
+    <div className="grid-cols-12 w-full">
+      <div className="col-span-8 card">
+        <h2 className="text-xl font-bold mb-6 flex-row items-center gap-2">
+          <Settings size={24} className="text-primary" /> Command Center
+        </h2>
+        
+        <div className="flex-col gap-6">
+          <div className="flex-row justify-between items-center" style={{ padding: '20px', border: '1px solid var(--border-color)', borderRadius: '8px', backgroundColor: 'var(--bg-color)' }}>
+            <div>
+              <h3 className="font-bold text-lg mb-2">AI Automation Engine</h3>
+              <p className="text-sm text-muted">Allow system to make real-time braking and signal decisions.</p>
+            </div>
+            <button 
+              id="ai-toggle-btn"
+              className={`btn-primary ${aiEnabled ? 'btn-success' : 'btn-danger'}`}
+              onClick={() => setAiEnabled(!aiEnabled)}
+              aria-pressed={aiEnabled}
+            >
+              <Power size={18} aria-hidden="true" /> {aiEnabled ? 'AI ONLINE' : 'AI OFFLINE'}
+            </button>
+          </div>
+
+          <div className="bg-danger-light" style={{ padding: '20px', border: '1px solid var(--danger)', borderRadius: '8px' }}>
+            <h3 className="font-bold text-lg text-danger flex-row items-center gap-2 mb-2">
+              <AlertTriangle size={20} aria-hidden="true" /> Emergency Controls
+            </h3>
+            <p className="text-sm text-danger mb-4">Manual override will bypass AI and immediately halt all trains in the sector.</p>
+            <button id="emergency-stop-btn" className="btn-danger w-full" style={{ padding: '16px', fontSize: '18px', fontWeight: 'bold' }} onClick={onStop}>
+              EMERGENCY STOP ALL TRAINS
+            </button>
+          </div>
+          
+           <div className="mt-4 text-center">
+            <button id="reset-sim-btn" className="btn-outline" onClick={onRestart}>
+              Reset Simulation Environment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureScreen() {
+  return (
+    <div className="card flex-col items-center justify-center text-center w-full" style={{ minHeight: '60vh', padding: '40px' }}>
+       <h2 className="text-2xl font-bold mb-10 text-primary">System Architecture Flow</h2>
+       
+       <div className="arch-container">
+          <div className="arch-line"></div>
+          
+          <Node icon={<Radio size={32} className="text-primary"/>} label="IoT Sensors" sub="GPS, Speed (Train)" borderColor="var(--primary)" />
+          <Node icon={<Database size={32} style={{ color: '#6366f1' }}/>} label="Cloud Server" sub="Node.js / WebSocket" borderColor="#6366f1" />
+          <Node icon={<Cpu size={32} style={{ color: '#a855f7' }}/>} label="AI Engine" sub="Risk Prediction" borderColor="#a855f7" />
+          <Node icon={<HardDrive size={32} className="text-danger"/>} label="Decision Engine" sub="Auto Stop / Alert" borderColor="var(--danger)" />
+          <Node icon={<LayoutDashboard size={32} className="text-success"/>} label="Dashboard UI" sub="React / Real-time" borderColor="var(--success)" />
+       </div>
+
+       <div className="mt-16 bg-primary-light" style={{ maxWidth: '600px', padding: '24px', borderRadius: '8px' }}>
+         <h3 className="text-xl font-bold text-primary mb-2">"This system doesn't just detect accidents — it prevents them before they happen."</h3>
+         <p className="text-muted mt-2">Predictive collision avoidance with 10-20 seconds lead time.</p>
+       </div>
+    </div>
+  );
+}
+
+function Node({ icon, label, sub, borderColor }) {
+  return (
+    <div className="arch-node" style={{ borderColor }}>
+      <div className="icon">
+        {icon}
+      </div>
+      <div className="title">{label}</div>
+      <div className="sub">{sub}</div>
+    </div>
+  );
+}
