@@ -41,12 +41,12 @@ function AnimatedCounter({ target, suffix = '', duration = 1800 }) {
 const CORRIDOR = {
   totalKm: 48,
   stations: [
-    { id: 'DEP', km: 0,   pct: 3,  name: 'Depot Yard',    platform: 'P1' },
-    { id: 'WJN', km: 8.5, pct: 18, name: 'West Junction',  platform: 'P2' },
-    { id: 'CTR', km: 18,  pct: 38, name: 'Central',        platform: 'P1-P4' },
-    { id: 'NJN', km: 29,  pct: 62, name: 'North Junction', platform: 'P1' },
-    { id: 'HBR', km: 38,  pct: 80, name: 'Harbour',        platform: 'P2' },
-    { id: 'TRM', km: 48,  pct: 97, name: 'Terminal',       platform: 'P1-P3' },
+    { id: 'NDLS', km: 0,   pct: 3,  name: 'New Delhi',    platform: 'P1' },
+    { id: 'FDB',  km: 8.5, pct: 18, name: 'Faridabad',    platform: 'P2' },
+    { id: 'PWL',  km: 18,  pct: 38, name: 'Palwal',       platform: 'P1-P4' },
+    { id: 'KSV',  km: 29,  pct: 62, name: 'Kosi Kalan',   platform: 'P1' },
+    { id: 'MTJ',  km: 38,  pct: 80, name: 'Mathura Jn',   platform: 'P2' },
+    { id: 'AGC',  km: 48,  pct: 97, name: 'Agra Cantt',   platform: 'P1-P3' },
   ],
   signals: [
     { km: 4,  pct: 9 },
@@ -66,9 +66,9 @@ const TICK_MS = 60;
 function useRealisticSim() {
   const [state, setState] = useState({
     trains: [
-      { id: '1042', name: 'Rajdhani Exp', line: 1, x: 5,  dir: 1,  speed: 0, targetSpeed: MAX_SPEED, color: '#22c55e', braking: false, ebrake: false, atStation: 'DEP', dwellTicks: 40, distKm: 0,   throttle: 100 },
-      { id: '2087', name: 'Shatabdi Exp', line: 1, x: 92, dir: -1, speed: 0, targetSpeed: MAX_SPEED, color: '#ef4444', braking: false, ebrake: false, atStation: 'TRM', dwellTicks: 40, distKm: 48,  throttle: 100 },
-      { id: '3156', name: 'Duronto Exp',  line: 2, x: 15, dir: 1,  speed: 0, targetSpeed: MAX_SPEED, color: '#3b82f6', braking: false, ebrake: false, atStation: 'WJN', dwellTicks: 60, distKm: 8.5, throttle: 100 },
+      { id: '1042', name: 'Rajdhani Exp', line: 1, x: 5,  dir: 1,  speed: 0, targetSpeed: MAX_SPEED, color: '#22c55e', braking: false, ebrake: false, atStation: 'NDLS', dwellTicks: 40, distKm: 0,   throttle: 100 },
+      { id: '2087', name: 'Shatabdi Exp', line: 1, x: 92, dir: -1, speed: 0, targetSpeed: MAX_SPEED, color: '#ef4444', braking: false, ebrake: false, atStation: 'AGC', dwellTicks: 40, distKm: 48,  throttle: 100 },
+      { id: '3156', name: 'Duronto Exp',  line: 2, x: 15, dir: 1,  speed: 0, targetSpeed: MAX_SPEED, color: '#3b82f6', braking: false, ebrake: false, atStation: 'FDB', dwellTicks: 60, distKm: 8.5, throttle: 100 },
     ],
     risk: 4,
     phase: 'clear',
@@ -486,7 +486,7 @@ function LiveSim() {
               </div>
               <div className="rtc-rail rtc-rail--bot" />
             </div>
-            {CORRIDOR.stations.filter(s => ['DEP','CTR','TRM'].includes(s.id)).map(st => (
+            {CORRIDOR.stations.filter(s => ['NDLS','PWL','AGC'].includes(s.id)).map(st => (
               <div key={st.id} className="rtc-station" style={{ left: `${st.pct}%` }}>
                 <div className="rtc-station-platform" />
                 <span className="rtc-station-id">{st.id}</span>
@@ -570,8 +570,8 @@ function Navbar({ onLaunch }) {
     <nav className={`pf-nav ${scrolled ? 'pf-nav--scrolled' : ''}`}>
       <div className="pf-nav-inner">
         <div className="pf-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="pf-logo-icon">
-            <ShieldAlert size={16} color="#fff" />
+          <div className="pf-logo-icon" style={{ background: 'transparent' }}>
+            <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="ZupZup Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} />
           </div>
           <span className="pf-logo-text">ZupZup</span>
         </div>
@@ -957,7 +957,7 @@ export default function HomePage({ onLaunch }) {
           <div className="pf-footer-top">
             <div className="pf-footer-brand">
               <div className="pf-logo">
-                <div className="pf-logo-icon"><ShieldAlert size={16} color="#fff" /></div>
+                <div className="pf-logo-icon" style={{ background: 'transparent' }}><img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="ZupZup Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} /></div>
                 <span className="pf-logo-text">ZupZup</span>
               </div>
               <p className="pf-footer-tagline">Zero Collisions. Engineered In.</p>

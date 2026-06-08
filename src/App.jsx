@@ -3,16 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
   Map, AlertTriangle, CheckCircle, Network, Power, 
-  Radio, Database, Cpu, HardDrive, BellRing
+  Radio, Database, Cpu, HardDrive, BellRing,
+  CloudRain, Sun, Thermometer, Video, BarChart2, Clock
 } from 'lucide-react';
 import HomePage from './HomePage';
 import './index.css';
 
 // --- MOCK DATA & SIMULATION LOGIC ---
 const INITIAL_TRAINS = [
-  { id: 'TR-101', x: 10, y: 50, speed: 120, direction: 'East', risk: 0, status: 'safe' },
-  { id: 'TR-102', x: 90, y: 50, speed: 110, direction: 'West', risk: 0, status: 'safe' },
-  { id: 'TR-205', x: 50, y: 10, speed: 90, direction: 'South', risk: 0, status: 'safe' }
+  { id: '22436 Vande Bharat', x: 10, y: 50, speed: 120, direction: 'East', risk: 0, status: 'safe', route: 'Delhi ➝ Agra', nextStation: 'Mathura', eta: '14 min' },
+  { id: '12004 Shatabdi Exp', x: 90, y: 50, speed: 110, direction: 'West', risk: 0, status: 'safe', route: 'Agra ➝ Delhi', nextStation: 'Palwal', eta: '22 min' },
+  { id: '12951 Rajdhani Exp', x: 50, y: 10, speed: 90, direction: 'South', risk: 0, status: 'safe', route: 'Jaipur ➝ Delhi', nextStation: 'Gurugram', eta: '45 min' }
 ];
 
 const generateLog = (type, message) => ({
@@ -30,6 +31,9 @@ export default function App() {
   const [aiLogs, setAiLogs] = useState([]);
   const [aiEnabled, setAiEnabled] = useState(true);
   const [systemHealth, setSystemHealth] = useState(100);
+  
+  const [weather, setWeather] = useState({ condition: 'Heavy Rain', temp: 22, visibility: 'Low (1.2 km)', riskMultiplier: 1.5 });
+  const [chartData, setChartData] = useState([20, 35, 10, 45, 80, 50, 15, 60]);
 
   // Simulation Loop — only runs when on the app page
   useEffect(() => {
@@ -51,7 +55,11 @@ export default function App() {
         // Calculate distance and risk between TR-101 and TR-102
         const dist = Math.abs(newTrains[0].x - newTrains[1].x);
         
-        if (dist < 15 && dist > 0) {
+        // Weather affects risk distance thresholds
+        const thresholdDanger = 15 * weather.riskMultiplier;
+        const thresholdWarn = 30 * weather.riskMultiplier;
+        
+        if (dist < thresholdDanger && dist > 0) {
           // Collision imminent
           newTrains[0].risk = 95;
           newTrains[1].risk = 95;
@@ -69,7 +77,7 @@ export default function App() {
           } else {
              addAlert('danger', 'CRITICAL: Collision predicted in 12s! Manual intervention required!');
           }
-        } else if (dist < 30 && dist >= 15) {
+        } else if (dist < thresholdWarn && dist >= thresholdDanger) {
           // Warning zone
           newTrains[0].risk = 65;
           newTrains[1].risk = 65;
@@ -77,7 +85,7 @@ export default function App() {
           newTrains[1].status = 'warning';
           
           addAlert('warning', 'WARNING: Trains approaching same sector. Distance decreasing.');
-          addAiLog('prediction', `Risk score increased to 65%. Monitoring speed.`);
+          addAiLog('prediction', `Risk score increased to 65% (Weather factored). Monitoring speed.`);
         } else {
           // Safe
           newTrains[0].risk = 5;
@@ -88,10 +96,17 @@ export default function App() {
 
         return newTrains;
       });
+
+      // Update Chart randomly
+      setChartData(prev => {
+        const newData = [...prev.slice(1), Math.floor(Math.random() * 100)];
+        return newData;
+      });
+
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [aiEnabled, page]);
+  }, [aiEnabled, page, weather.riskMultiplier]);
 
   const addAlert = (type, message) => {
     setAlerts(prev => {
@@ -119,7 +134,6 @@ export default function App() {
     setAiLogs([generateLog('system', 'System Reset. AI Monitoring Resumed.')]);
   };
 
-  // ← Homepage early return is AFTER all hooks
   if (page === 'home') {
     return (
       <AnimatePresence mode="wait">
@@ -139,7 +153,7 @@ export default function App() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard': return <DashboardScreen trains={trains} alerts={alerts} aiLogs={aiLogs} systemHealth={systemHealth} />;
+      case 'dashboard': return <DashboardScreen trains={trains} alerts={alerts} aiLogs={aiLogs} systemHealth={systemHealth} weather={weather} chartData={chartData} />;
       case 'alerts': return <AlertScreen alerts={alerts} />;
       case 'trains': return <TrainDetailScreen trains={trains} />;
       case 'control': return <ControlPanel aiEnabled={aiEnabled} setAiEnabled={setAiEnabled} onStop={handleManualStop} onRestart={handleRestart} />;
@@ -153,7 +167,7 @@ export default function App() {
       {/* SIDEBAR */}
       <aside className="sidebar" id="main-sidebar" aria-label="Main Navigation">
         <div className="sidebar-logo">
-          <ShieldAlert className="text-primary" size={28} aria-hidden="true" />
+          <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="Logo" style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />
           <span>Zero-Collision IS</span>
         </div>
         
@@ -224,11 +238,11 @@ function NavItem({ icon, label, active, onClick, id }) {
 }
 
 // --- SCREENS ---
-function DashboardScreen({ trains, alerts, aiLogs, systemHealth }) {
+function DashboardScreen({ trains, alerts, aiLogs, systemHealth, weather, chartData }) {
   return (
-    <div className="grid-cols-12 w-full">
+    <div className="grid-cols-12 w-full gap-6">
       {/* Top Cards */}
-      <div className="col-span-12 grid-cols-3">
+      <div className="col-span-12 grid-cols-4 gap-6">
          <div className="card flex-row items-center gap-4">
             <div className="icon-box bg-primary-light text-primary">
               <Train size={24} />
@@ -256,28 +270,36 @@ function DashboardScreen({ trains, alerts, aiLogs, systemHealth }) {
               <div className="text-2xl font-bold">{trains.filter(t => t.risk > 50).length}</div>
             </div>
          </div>
+         <WeatherWidget weather={weather} />
       </div>
 
       {/* Map Area */}
-      <div className="col-span-8 card">
-        <h2 className="text-lg font-bold mb-4 flex-row items-center gap-2">
-          <Map size={20} className="text-primary"/> Live Tracking Map
-        </h2>
-        <div className="map-container">
-           <div className="map-track"></div>
-           <div className="map-track-vertical"></div>
-           
-           {trains.map(train => (
-             <motion.div 
-               key={train.id}
-               className={`train-marker ${train.status === 'danger' ? 'pulse bg-danger-light text-danger border-danger' : train.status === 'warning' ? 'bg-warning-light text-warning border-warning' : 'bg-success-light text-success border-success'}`}
-               style={{ left: `${train.x}%`, top: `${train.y}%`, backgroundColor: train.status === 'danger' ? 'var(--danger)' : train.status === 'warning' ? 'var(--warning)' : 'var(--success)', color: 'white' }}
-               animate={{ left: `${train.x}%`, top: `${train.y}%` }}
-               transition={{ ease: "linear", duration: 1 }}
-             >
-                <Train size={16} />
-             </motion.div>
-           ))}
+      <div className="col-span-8 flex-col gap-6">
+        <div className="card">
+          <h2 className="text-lg font-bold mb-4 flex-row items-center gap-2">
+            <Map size={20} className="text-primary"/> Live Tracking Map
+          </h2>
+          <div className="map-container">
+             <div className="map-track"></div>
+             <div className="map-track-vertical"></div>
+             
+             {trains.map(train => (
+               <motion.div 
+                 key={train.id}
+                 className={`train-marker ${train.status === 'danger' ? 'pulse bg-danger-light text-danger border-danger' : train.status === 'warning' ? 'bg-warning-light text-warning border-warning' : 'bg-success-light text-success border-success'}`}
+                 style={{ left: `${train.x}%`, top: `${train.y}%`, backgroundColor: train.status === 'danger' ? 'var(--danger)' : train.status === 'warning' ? 'var(--warning)' : 'var(--success)', color: 'white' }}
+                 animate={{ left: `${train.x}%`, top: `${train.y}%` }}
+                 transition={{ ease: "linear", duration: 1 }}
+               >
+                  <Train size={16} />
+               </motion.div>
+             ))}
+          </div>
+        </div>
+
+        <div className="grid-cols-2 gap-6" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+           <CCTVFeeds />
+           <AnalyticsChart data={chartData} />
         </div>
       </div>
 
@@ -297,6 +319,67 @@ function DashboardScreen({ trains, alerts, aiLogs, systemHealth }) {
                </div>
              ))}
            </div>
+         </div>
+      </div>
+    </div>
+  );
+}
+
+function WeatherWidget({ weather }) {
+  return (
+    <div className="weather-widget card" style={{ padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+       <div className="weather-icon-box" style={{ width: '48px', height: '48px', background: 'var(--primary-light)', color: 'var(--primary)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+         <CloudRain size={24} />
+       </div>
+       <div className="weather-info" style={{ flex: 1, marginLeft: '12px' }}>
+         <h4 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '2px', color: 'var(--text-main)' }}>{weather.condition}</h4>
+         <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{weather.temp}°C | Vis: {weather.visibility}</p>
+       </div>
+       <div className="text-danger text-xs font-bold" style={{ textAlign: 'right' }}>
+         Risk x{weather.riskMultiplier}
+       </div>
+    </div>
+  );
+}
+
+function AnalyticsChart({ data }) {
+  return (
+    <div className="card flex-1 flex-col">
+      <h2 className="text-lg font-bold flex-row items-center gap-2">
+        <BarChart2 size={20} className="text-primary"/> Network Risk Index (24h)
+      </h2>
+      <div className="chart-container" style={{ display: 'flex', alignItems: 'flex-end', gap: '8px', height: '160px', paddingTop: '20px' }}>
+         {data.map((val, i) => (
+           <div key={i} className="chart-bar-wrap" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', height: '100%' }}>
+             <div className="chart-bar" style={{ width: '100%', background: 'var(--primary)', borderRadius: '4px 4px 0 0', minHeight: '4px', height: `${val}%`, backgroundColor: val > 80 ? 'var(--danger)' : val > 50 ? 'var(--warning)' : 'var(--primary)', transition: 'height 0.5s ease' }}></div>
+             <span className="chart-label" style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '6px', fontFamily: 'monospace' }}>-{data.length - i}h</span>
+           </div>
+         ))}
+      </div>
+    </div>
+  );
+}
+
+function CCTVFeeds() {
+  return (
+    <div className="card flex-1 flex-col">
+      <h2 className="text-lg font-bold mb-4 flex-row items-center gap-2">
+        <Video size={20} className="text-primary"/> Live Track Cameras
+      </h2>
+      <div className="cctv-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+         <div className="cctv-feed" style={{ position: 'relative', background: '#000', borderRadius: '6px', overflow: 'hidden', aspectRatio: '16/9' }}>
+            <img src="/cctv_mathura.png" alt="Camera 1" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
+            <div className="cctv-overlay" style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.6)', padding: '4px 8px', borderRadius: '4px' }}>
+               <span className="cctv-dot" style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%', animation: 'pulse-dot 1s infinite alternate' }}></span>
+               <span className="cctv-label" style={{ color: '#fff', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.5px', fontFamily: 'monospace' }}>CAM-01: MATHURA JN</span>
+            </div>
+         </div>
+         <div className="cctv-feed" style={{ position: 'relative', background: '#000', borderRadius: '6px', overflow: 'hidden', aspectRatio: '16/9' }}>
+            <img src="/cctv_palwal.png" alt="Camera 2" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
+            <div className="cctv-overlay" style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.6)', padding: '4px 8px', borderRadius: '4px' }}>
+               <span className="cctv-dot" style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%', animation: 'pulse-dot 1s infinite alternate' }}></span>
+               <span className="cctv-label" style={{ color: '#fff', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.5px', fontFamily: 'monospace' }}>CAM-02: PALWAL YARD</span>
+            </div>
          </div>
       </div>
     </div>
@@ -386,7 +469,7 @@ function AlertScreen({ alerts }) {
 
 function TrainDetailScreen({ trains }) {
   return (
-    <div className="grid-cols-3 w-full">
+    <div className="grid-cols-3 w-full gap-6">
       {trains.map(train => (
         <div key={train.id} className="card">
           <div className="flex-row justify-between items-center mb-4 pb-3" style={{ borderBottom: '1px solid var(--border-color)' }}>
@@ -404,14 +487,22 @@ function TrainDetailScreen({ trains }) {
               <span className="font-bold">{train.speed} km/h</span>
             </div>
             <div className="flex-row justify-between">
-              <span className="text-muted">Direction</span>
-              <span className="font-bold">{train.direction}</span>
+              <span className="text-muted">Route</span>
+              <span className="font-bold">{train.route}</span>
             </div>
             <div className="flex-row justify-between">
               <span className="text-muted">Coordinates</span>
               <span style={{ fontFamily: 'monospace' }}>{train.x.toFixed(1)}, {train.y.toFixed(1)}</span>
             </div>
             
+            <div className="mt-2 p-3 bg-primary-light" style={{ borderRadius: '6px' }}>
+               <div className="flex-row justify-between items-center mb-1">
+                 <span className="text-muted font-bold text-xs">Next Station</span>
+                 <span className="text-primary font-bold text-xs"><Clock size={12} style={{ display: 'inline', marginBottom: '-2px' }}/> ETA: {train.eta}</span>
+               </div>
+               <div className="font-bold text-main">{train.nextStation}</div>
+            </div>
+
             <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border-color)' }}>
               <div className="flex-row justify-between items-center mb-2">
                 <span className="text-muted font-bold">Collision Risk</span>
