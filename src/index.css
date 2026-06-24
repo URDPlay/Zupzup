@@ -1445,6 +1445,7 @@ button {
 .pf-footer-links {
   flex: 1;
   display: flex;
+  justify-content: space-between;
   gap: 48px;
   flex-wrap: wrap;
 }
@@ -1507,7 +1508,7 @@ button {
   .pf-stats-grid { grid-template-columns: 1fr 1fr; }
   .pf-footer-top { flex-direction: column; gap: 36px; }
   .pf-footer-brand { flex: auto; }
-  .pf-footer-links { gap: 28px; }
+  .pf-footer-links { gap: 28px; flex-direction: column; width: 100%; }
 }
 
 .hp-page {

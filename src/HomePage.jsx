@@ -712,7 +712,7 @@ function TechPill({ label, sub, color, icon }) {
 }
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
-export default function HomePage({ onLaunch }) {
+export default function HomePage({ onLaunch, onNavigate }) {
   const [alertDismissed, setAlertDismissed] = useState(false);
 
   useEffect(() => {
@@ -975,7 +975,21 @@ export default function HomePage({ onLaunch }) {
               ].map(col => (
                 <div key={col.heading} className="pf-footer-col">
                   <div className="pf-footer-col-hd">{col.heading}</div>
-                  {col.links.map(l => <a key={l} href="#" className="pf-footer-link">{l}</a>)}
+                  {col.links.map(l => (
+                    <a 
+                      key={l} 
+                      href="#" 
+                      className="pf-footer-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (onNavigate && (col.heading === 'Company' || col.heading === 'Product')) {
+                          onNavigate(l.toLowerCase());
+                        }
+                      }}
+                    >
+                      {l}
+                    </a>
+                  ))}
                 </div>
               ))}
             </div>

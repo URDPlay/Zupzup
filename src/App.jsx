@@ -7,6 +7,8 @@ import {
   CloudRain, Sun, Thermometer, Video, BarChart2, Clock
 } from 'lucide-react';
 import HomePage from './HomePage';
+import { AboutPage, BlogPage, CareersPage, ContactPage } from './CompanyPages';
+import { FeaturesPage, ArchitecturePage, RoadmapPage, ChangelogPage } from './ProductPages';
 import './index.css';
 
 // --- MOCK DATA & SIMULATION LOGIC ---
@@ -134,6 +136,8 @@ export default function App() {
     setAiLogs([generateLog('system', 'System Reset. AI Monitoring Resumed.')]);
   };
 
+  // LinksPage has been removed
+
   if (page === 'home') {
     return (
       <AnimatePresence mode="wait">
@@ -145,7 +149,35 @@ export default function App() {
           transition={{ duration: 0.3 }}
           style={{ width: '100%' }}
         >
-          <HomePage onLaunch={() => setPage('app')} />
+          <HomePage onLaunch={() => setPage('app')} onNavigate={setPage} />
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  const companyPages = {
+    about: <AboutPage onBack={() => setPage('home')} />,
+    blog: <BlogPage onBack={() => setPage('home')} />,
+    careers: <CareersPage onBack={() => setPage('home')} />,
+    contact: <ContactPage onBack={() => setPage('home')} />,
+    features: <FeaturesPage onBack={() => setPage('home')} />,
+    architecture: <ArchitecturePage onBack={() => setPage('home')} />,
+    roadmap: <RoadmapPage onBack={() => setPage('home')} />,
+    changelog: <ChangelogPage onBack={() => setPage('home')} />
+  };
+
+  if (companyPages[page]) {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={page}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+          style={{ width: '100%', backgroundColor: 'var(--bg-color)', color: 'var(--text-main)', overflowY: 'auto' }}
+        >
+          {companyPages[page]}
         </motion.div>
       </AnimatePresence>
     );
