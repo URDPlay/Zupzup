@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Star, Cpu, Map, GitBranch, ShieldAlert, Zap, Server } from 'lucide-react';
 
 const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
-  <div style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 20px', minHeight: '100vh' }}>
+  <div className="subpage-wrapper">
     <button 
       onClick={onBack}
       style={{
@@ -16,9 +16,9 @@ const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
       <ArrowLeft size={18} /> Back to Home
     </button>
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px', flexWrap: 'wrap' }}>
         {Icon && <div style={{ padding: '16px', background: 'var(--primary-light)', color: 'var(--primary)', borderRadius: '16px' }}><Icon size={36} /></div>}
-        <h1 style={{ fontSize: '56px', fontWeight: '800', margin: 0, letterSpacing: '-1.5px', color: 'var(--text-main)' }}>{title}</h1>
+        <h1 className="subpage-title-h1">{title}</h1>
       </div>
       <div style={{ lineHeight: '1.8', fontSize: '18px', color: 'var(--text-muted)' }}>
         {children}
@@ -37,8 +37,8 @@ export const FeaturesPage = ({ onBack }) => (
         { title: 'Millisecond Auto-Braking', desc: 'Direct integration with train braking systems to autonomously halt locomotives when a critical threat is confirmed.', icon: Zap, color: 'var(--warning)' },
         { title: 'IoT Edge Processing', desc: 'Processes sensor telemetry locally on the train, ensuring no latency and full functionality even during network dropouts.', icon: Cpu, color: 'var(--primary)' }
       ].map((feat, i) => (
-        <div key={i} className="card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', padding: '32px' }}>
-          <div style={{ background: 'var(--bg-color)', padding: '16px', borderRadius: '16px', color: feat.color }}><feat.icon size={32} /></div>
+        <div key={i} className="card feature-page-card">
+          <div style={{ background: 'var(--bg-color)', padding: '16px', borderRadius: '16px', color: feat.color, flexShrink: 0 }}><feat.icon size={32} /></div>
           <div>
             <h3 style={{ fontSize: '22px', fontWeight: 'bold', margin: '0 0 12px 0', color: 'var(--text-main)' }}>{feat.title}</h3>
             <p style={{ fontSize: '16px', margin: 0 }}>{feat.desc}</p>
@@ -54,17 +54,17 @@ export const ArchitecturePage = ({ onBack }) => (
     <p style={{ marginBottom: '40px', fontSize: '20px' }}>A high-availability, low-latency ecosystem built for mission-critical infrastructure.</p>
     
     <div className="card" style={{ padding: '40px', marginBottom: '32px', textAlign: 'center', background: 'linear-gradient(135deg, var(--bg-color), #ffffff)' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+      <div className="arch-flow-container">
         <div style={{ padding: '20px', background: 'white', borderRadius: '12px', border: '1px solid var(--border-color)', width: '200px' }}>
           <b style={{ color: 'var(--primary)', display: 'block', marginBottom: '8px' }}>Edge Layer</b>
           <span style={{ fontSize: '14px' }}>IoT Track & Train Sensors</span>
         </div>
-        <ArrowLeft size={24} style={{ color: 'var(--text-muted)', transform: 'rotate(180deg)' }} />
+        <ArrowLeft size={24} className="arch-flow-arrow" />
         <div style={{ padding: '20px', background: 'white', borderRadius: '12px', border: '1px solid var(--border-color)', width: '200px' }}>
           <b style={{ color: 'var(--success)', display: 'block', marginBottom: '8px' }}>Processing Layer</b>
           <span style={{ fontSize: '14px' }}>Real-time Risk AI Model</span>
         </div>
-        <ArrowLeft size={24} style={{ color: 'var(--text-muted)', transform: 'rotate(180deg)' }} />
+        <ArrowLeft size={24} className="arch-flow-arrow" />
         <div style={{ padding: '20px', background: 'white', borderRadius: '12px', border: '1px solid var(--border-color)', width: '200px' }}>
           <b style={{ color: 'var(--danger)', display: 'block', marginBottom: '8px' }}>Action Layer</b>
           <span style={{ fontSize: '14px' }}>Autonomous Braking & Alerts</span>

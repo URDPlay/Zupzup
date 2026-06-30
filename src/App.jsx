@@ -4,11 +4,13 @@ import {
   Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
   Map, AlertTriangle, CheckCircle, Network, Power, 
   Radio, Database, Cpu, HardDrive, BellRing,
-  CloudRain, Sun, Thermometer, Video, BarChart2, Clock
+  CloudRain, Sun, Thermometer, Video, BarChart2, Clock, Menu
 } from 'lucide-react';
 import HomePage from './HomePage';
 import { AboutPage, BlogPage, CareersPage, ContactPage } from './CompanyPages';
 import { FeaturesPage, ArchitecturePage, RoadmapPage, ChangelogPage } from './ProductPages';
+import { PrivacyPage, TermsPage, CookiesPage } from './LegalPages';
+import LinksPage from './LinksPage';
 import './index.css';
 
 // --- MOCK DATA & SIMULATION LOGIC ---
@@ -33,9 +35,18 @@ export default function App() {
   const [aiLogs, setAiLogs] = useState([]);
   const [aiEnabled, setAiEnabled] = useState(true);
   const [systemHealth, setSystemHealth] = useState(100);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const [weather, setWeather] = useState({ condition: 'Heavy Rain', temp: 22, visibility: 'Low (1.2 km)', riskMultiplier: 1.5 });
   const [chartData, setChartData] = useState([20, 35, 10, 45, 80, 50, 15, 60]);
+  const [cookieConsent, setCookieConsent] = useState(() => {
+    return localStorage.getItem('zupzup_cookie_consent') === 'true';
+  });
+
+  const acceptCookies = () => {
+    localStorage.setItem('zupzup_cookie_consent', 'true');
+    setCookieConsent(true);
+  };
 
   // Simulation Loop — only runs when on the app page
   useEffect(() => {
@@ -163,7 +174,11 @@ export default function App() {
     features: <FeaturesPage onBack={() => setPage('home')} />,
     architecture: <ArchitecturePage onBack={() => setPage('home')} />,
     roadmap: <RoadmapPage onBack={() => setPage('home')} />,
-    changelog: <ChangelogPage onBack={() => setPage('home')} />
+    changelog: <ChangelogPage onBack={() => setPage('home')} />,
+    privacy: <PrivacyPage onBack={() => setPage('home')} />,
+    terms: <TermsPage onBack={() => setPage('home')} />,
+    cookies: <CookiesPage onBack={() => setPage('home')} />,
+    links: <LinksPage onBack={() => setPage('home')} />,
   };
 
   if (companyPages[page]) {
@@ -196,23 +211,37 @@ export default function App() {
 
   return (
     <div className="flex-row" style={{ height: '100vh', width: '100vw' }} id="app-root">
+      {/* SIDEBAR OVERLAY FOR MOBILE */}
+      {isSidebarOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsSidebarOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            zIndex: 150,
+          }}
+        />
+      )}
+
       {/* SIDEBAR */}
-      <aside className="sidebar" id="main-sidebar" aria-label="Main Navigation">
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`} id="main-sidebar" aria-label="Main Navigation">
         <div className="sidebar-logo">
           <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="Logo" style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />
           <span>Zero-Collision IS</span>
         </div>
         
         <nav className="flex-col gap-2 mt-4" aria-label="Sidebar Menu">
-          <NavItem id="nav-dashboard" icon={<LayoutDashboard aria-hidden="true" />} label="Dashboard" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} />
-          <NavItem id="nav-alerts" icon={<BellRing aria-hidden="true" />} label="Alerts" active={activeTab === 'alerts'} onClick={() => setActiveTab('alerts')} />
-          <NavItem id="nav-trains" icon={<Train aria-hidden="true" />} label="Train Details" active={activeTab === 'trains'} onClick={() => setActiveTab('trains')} />
-          <NavItem id="nav-control" icon={<Settings aria-hidden="true" />} label="Control Panel" active={activeTab === 'control'} onClick={() => setActiveTab('control')} />
+          <NavItem id="nav-dashboard" icon={<LayoutDashboard aria-hidden="true" />} label="Dashboard" active={activeTab === 'dashboard'} onClick={() => { setActiveTab('dashboard'); setIsSidebarOpen(false); }} />
+          <NavItem id="nav-alerts" icon={<BellRing aria-hidden="true" />} label="Alerts" active={activeTab === 'alerts'} onClick={() => { setActiveTab('alerts'); setIsSidebarOpen(false); }} />
+          <NavItem id="nav-trains" icon={<Train aria-hidden="true" />} label="Train Details" active={activeTab === 'trains'} onClick={() => { setActiveTab('trains'); setIsSidebarOpen(false); }} />
+          <NavItem id="nav-control" icon={<Settings aria-hidden="true" />} label="Control Panel" active={activeTab === 'control'} onClick={() => { setActiveTab('control'); setIsSidebarOpen(false); }} />
         </nav>
         <div style={{ marginTop: 'auto', padding: '16px 24px', borderTop: '1px solid var(--border-color)' }}>
           <button
             id="nav-back-home"
-            onClick={() => setPage('home')}
+            onClick={() => { setPage('home'); setIsSidebarOpen(false); }}
             style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-muted)', borderRadius: '8px', padding: '10px 16px', width: '100%', cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s' }}
             onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-color)'; e.currentTarget.style.color = 'var(--primary)'; }}
             onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
@@ -226,12 +255,15 @@ export default function App() {
       <main className="main-content" id="main-content" role="main">
         <header className="topbar" id="app-header">
           <div className="flex-row items-center gap-4">
+             <button className="mobile-menu-btn" onClick={() => setIsSidebarOpen(true)} aria-label="Open Navigation Menu">
+               <Menu size={20} />
+             </button>
              <h1 className="text-xl font-bold" id="page-title">Smart Railway Control</h1>
-             <div className="badge badge-success flex-row items-center gap-2" role="status" aria-live="polite">
+             <div className="badge badge-success flex-row items-center gap-2 xs-hide" role="status" aria-live="polite">
                <CheckCircle size={14} aria-hidden="true" /> System Online
              </div>
           </div>
-          <div className="flex-row items-center gap-6">
+          <div className="flex-row items-center gap-6 mobile-hide">
             <div className="flex-row items-center gap-2 text-sm text-muted">
                <Activity size={16} aria-hidden="true" /> Heartbeat: Stable
             </div>
@@ -256,6 +288,52 @@ export default function App() {
            </AnimatePresence>
         </section>
       </main>
+
+      {!cookieConsent && (
+        <div style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#1e293b',
+          color: '#f8fafc',
+          padding: '16px 24px',
+          borderRadius: '12px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '24px',
+          zIndex: 9999,
+          maxWidth: '90%',
+          width: '600px',
+          border: '1px solid #334155'
+        }}>
+          <div style={{ flex: 1, fontSize: '14px', lineHeight: '1.5' }}>
+            <strong>We value your privacy.</strong> We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
+            <br />
+            <button 
+              onClick={() => { setPage('cookies'); setIsSidebarOpen(false); }} 
+              style={{ background: 'none', border: 'none', color: '#60a5fa', textDecoration: 'underline', padding: 0, marginTop: '4px', cursor: 'pointer' }}>
+              Read our Cookie Policy
+            </button>
+          </div>
+          <button 
+            onClick={acceptCookies}
+            style={{
+              backgroundColor: '#2563eb',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '6px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
+            }}>
+            Accept All
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -329,7 +407,7 @@ function DashboardScreen({ trains, alerts, aiLogs, systemHealth, weather, chartD
           </div>
         </div>
 
-        <div className="grid-cols-2 gap-6" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div className="grid-cols-2 gap-6">
            <CCTVFeeds />
            <AnalyticsChart data={chartData} />
         </div>
@@ -398,7 +476,7 @@ function CCTVFeeds() {
       <h2 className="text-lg font-bold mb-4 flex-row items-center gap-2">
         <Video size={20} className="text-primary"/> Live Track Cameras
       </h2>
-      <div className="cctv-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div className="cctv-grid">
          <div className="cctv-feed" style={{ position: 'relative', background: '#000', borderRadius: '6px', overflow: 'hidden', aspectRatio: '16/9' }}>
             <img src="/cctv_mathura.png" alt="Camera 1" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
             <div className="cctv-overlay" style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.6)', padding: '4px 8px', borderRadius: '4px' }}>

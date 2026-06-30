@@ -711,15 +711,31 @@ function TechPill({ label, sub, color, icon }) {
   );
 }
 
-/* ─── Main ────────────────────────────────────────────────────────────────── */
-export default function HomePage({ onLaunch, onNavigate }) {
-  const [alertDismissed, setAlertDismissed] = useState(false);
-
+/* ─── AdSense Placeholder ─────────────────────────────────────────────────── */
+function AdBanner({ slotId }) {
   useEffect(() => {
-    const t = setTimeout(() => setAlertDismissed(false), 3500);
-    return () => clearTimeout(t);
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.warn("AdSense push error", e);
+    }
   }, []);
 
+  return (
+    <div style={{ margin: '40px auto', textAlign: 'center', width: '100%', overflow: 'hidden' }}>
+      <p style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Advertisement</p>
+      <ins className="adsbygoogle"
+           style={{ display: 'block', minHeight: '90px' }}
+           data-ad-client="ca-pub-2538738703402430"
+           data-ad-slot={slotId || "auto"}
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+  );
+}
+
+/* ─── Main ────────────────────────────────────────────────────────────────── */
+export default function HomePage({ onLaunch, onNavigate }) {
   const features = [
     { icon: <Cpu size={22} />, title: 'Predictive Collision AI', description: 'Neural networks analyse speed, trajectory and track topology to flag hazards 10–20 seconds before impact.', accent: '#2563eb', delay: 0 },
     { icon: <Zap size={22} />, title: 'Autonomous Emergency Braking', description: 'When risk exceeds critical thresholds the system engages brakes independently — no human reaction time required.', accent: '#7c3aed', delay: 0.06 },
@@ -766,24 +782,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="pf-hero" id="hero">
-        {/* Topline alert bar */}
-        <AnimatePresence>
-          {!alertDismissed && (
-            <motion.div
-              className="pf-topbar"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ delay: 1.2, duration: 0.4 }}
-            >
-              <span className="pf-topbar-dot" />
-              <span>System online · 3 trains actively monitored · No alerts</span>
-              <button className="pf-topbar-close" onClick={() => setAlertDismissed(true)}>
-                <X size={12} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         <div className="pf-hero-inner">
           {/* Left copy */}
@@ -876,8 +875,10 @@ export default function HomePage({ onLaunch, onNavigate }) {
         </div>
       </section>
 
+      <div className="pf-container"><AdBanner slotId="1234567890" /></div>
+
       {/* ── FEATURES ──────────────────────────────────────────────────────── */}
-      <section className="pf-section" id="features">
+      <section className="pf-section pf-bg-white" id="features">
         <div className="pf-container">
           <motion.div className="pf-section-hd" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
             <div className="pf-tag">Platform Features</div>
@@ -890,8 +891,10 @@ export default function HomePage({ onLaunch, onNavigate }) {
         </div>
       </section>
 
+      <div className="pf-container"><AdBanner slotId="0987654321" /></div>
+
       {/* ── HOW IT WORKS ──────────────────────────────────────────────────── */}
-      <section className="pf-section pf-section--alt" id="how-it-works">
+      <section className="pf-section pf-section--alt pf-bg-gray" id="how-it-works">
         <div className="pf-container">
           <motion.div className="pf-section-hd" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="pf-tag">The Process</div>
@@ -962,9 +965,9 @@ export default function HomePage({ onLaunch, onNavigate }) {
               </div>
               <p className="pf-footer-tagline">Zero Collisions. Engineered In.</p>
               <div className="pf-footer-socials">
-                <a href="#" className="pf-social"><GitBranch size={15} /></a>
-                <a href="#" className="pf-social"><Share2 size={15} /></a>
-                <a href="#" className="pf-social"><ExternalLink size={15} /></a>
+                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><GitBranch size={15} /></a>
+                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><Share2 size={15} /></a>
+                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><ExternalLink size={15} /></a>
               </div>
             </div>
             <div className="pf-footer-links">
@@ -995,11 +998,11 @@ export default function HomePage({ onLaunch, onNavigate }) {
             </div>
           </div>
           <div className="pf-footer-bottom">
-            <span>© 2026 ZupZup Railway Intelligence. All rights reserved.</span>
+            <span>© 2026 ZupZup Railway Intelligence.</span>
             <div className="pf-footer-legal">
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
-              <a href="#">Cookies</a>
+              <a href="#" onClick={e => { e.preventDefault(); onNavigate('privacy'); }}>Privacy</a>
+              <a href="#" onClick={e => { e.preventDefault(); onNavigate('terms'); }}>Terms</a>
+              <a href="#" onClick={e => { e.preventDefault(); onNavigate('cookies'); }}>Cookies</a>
             </div>
           </div>
         </div>

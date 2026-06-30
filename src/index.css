@@ -3003,3 +3003,200 @@ button {
   margin-top: 6px;
   font-family: monospace;
 }
+
+.grid-cols-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Mobile Hamburger Menu Trigger Button */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.mobile-menu-btn:hover {
+  background-color: var(--border-color);
+}
+
+/* Responsive drawer for the dashboard sidebar */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  #app-root {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Grid responsive conversions */
+  .grid-cols-12, .grid-cols-4, .grid-cols-3, .grid-cols-2 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .col-span-8, .col-span-4 {
+    grid-column: span 12 !important;
+  }
+
+  /* Dashboard container padding */
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  /* CCTV Feed stacking */
+  .cctv-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Architecture Screen Stack */
+  .arch-container {
+    flex-direction: column !important;
+    gap: 32px !important;
+    margin: 20px auto !important;
+    padding-bottom: 20px;
+  }
+
+  .arch-line {
+    top: 40px !important;
+    bottom: 40px !important;
+    left: 50% !important;
+    right: auto !important;
+    width: 4px !important;
+    height: auto !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Hide helpers */
+  .mobile-hide {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .xs-hide {
+    display: none !important;
+  }
+}
+
+/* Subpage Responsive Styling Classes */
+.subpage-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.subpage-title-h1 {
+  font-size: 56px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1.5px;
+  color: var(--text-main);
+}
+
+@media (max-width: 768px) {
+  .subpage-wrapper {
+    padding: 40px 16px;
+  }
+  .subpage-title-h1 {
+    font-size: 32px;
+    letter-spacing: -0.5px;
+  }
+}
+
+/* Job list cards in Careers */
+.job-card {
+  padding: 32px;
+}
+@media (max-width: 600px) {
+  .job-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    padding: 20px !important;
+  }
+  .job-card button {
+    width: 100% !important;
+  }
+}
+
+/* Contact Form card padding */
+.contact-form {
+  padding: 40px;
+}
+@media (max-width: 600px) {
+  .contact-form {
+    padding: 20px !important;
+  }
+}
+
+/* Product Features Cards stacking */
+.feature-page-card {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 32px;
+}
+@media (max-width: 600px) {
+  .feature-page-card {
+    flex-direction: column !important;
+    padding: 20px !important;
+    gap: 16px !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+}
+
+/* Product Architecture flow responsive container */
+.arch-flow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.arch-flow-arrow {
+  color: var(--text-muted);
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+@media (max-width: 768px) {
+  .arch-flow-container {
+    flex-direction: column !important;
+  }
+  .arch-flow-arrow {
+    transform: rotate(270deg) !important; /* Point downward on mobile */
+  }
+}

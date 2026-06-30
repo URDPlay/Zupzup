@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, MapPin, Phone, Users, Briefcase, BookOpen } from 'lucide-react';
 
 const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
-  <div style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 20px', minHeight: '100vh' }}>
+  <div className="subpage-wrapper">
     <button 
       onClick={onBack}
       style={{
@@ -16,9 +16,9 @@ const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
       <ArrowLeft size={18} /> Back to Home
     </button>
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px', flexWrap: 'wrap' }}>
         {Icon && <div style={{ padding: '16px', background: 'var(--primary-light)', color: 'var(--primary)', borderRadius: '16px' }}><Icon size={36} /></div>}
-        <h1 style={{ fontSize: '56px', fontWeight: '800', margin: 0, letterSpacing: '-1.5px', color: 'var(--text-main)' }}>{title}</h1>
+        <h1 className="subpage-title-h1">{title}</h1>
       </div>
       <div style={{ lineHeight: '1.8', fontSize: '18px', color: 'var(--text-muted)' }}>
         {children}
@@ -77,7 +77,7 @@ export const CareersPage = ({ onBack }) => (
         { role: 'Frontend Architect', team: 'Dashboard & UI', location: 'Remote / New York' },
         { role: 'Railway Safety Consultant', team: 'Compliance', location: 'Tokyo, Japan' }
       ].map((job, i) => (
-        <div key={i} className="card flex-row justify-between items-center" style={{ padding: '32px' }}>
+        <div key={i} className="card job-card flex-row justify-between items-center">
           <div>
             <h3 style={{ fontSize: '22px', fontWeight: 'bold', margin: 0, color: 'var(--text-main)' }}>{job.role}</h3>
             <div style={{ fontSize: '15px', marginTop: '12px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -121,7 +121,7 @@ export const ContactPage = ({ onBack }) => (
         </div>
       </div>
       
-      <form className="card" style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '40px' }} onSubmit={(e) => e.preventDefault()}>
+      <form className="card contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }} onSubmit={(e) => e.preventDefault()}>
         <div>
           <label style={{ display: 'block', marginBottom: '8px', fontSize: '15px', fontWeight: 'bold', color: 'var(--text-main)' }}>Full Name</label>
           <input type="text" style={{ width: '100%', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '16px' }} placeholder="John Doe" />
