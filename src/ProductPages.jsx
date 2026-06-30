@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, Cpu, Map, GitBranch, ShieldAlert, Zap, Server } from 'lucide-react';
 
@@ -104,7 +104,7 @@ export const RoadmapPage = ({ onBack }) => (
 
 export const ChangelogPage = ({ onBack }) => (
   <PageWrapper title="Changelog" onBack={onBack} icon={GitBranch}>
-    <p style={{ marginBottom: '40px', fontSize: '20px' }}>New updates and improvements to the ZupZup platform.</p>
+    <p style={{ marginBottom: '40px', fontSize: '20px' }}>New updates and improvements to the UNDISCOVEREDPATH platform.</p>
     
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="card">

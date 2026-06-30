@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, MapPin, Phone, Users, Briefcase, BookOpen } from 'lucide-react';
 
@@ -28,9 +28,9 @@ const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
 );
 
 export const AboutPage = ({ onBack }) => (
-  <PageWrapper title="About ZupZup" onBack={onBack} icon={Users}>
+  <PageWrapper title="About UNDISCOVEREDPATH" onBack={onBack} icon={Users}>
     <p style={{ marginBottom: '24px', fontSize: '20px', lineHeight: '1.6' }}>
-      At ZupZup, we believe that railway collisions belong in the history books. Founded by a team of safety engineers and AI researchers, our mission is to engineer zero-risk environments for global rail operations.
+      At UNDISCOVEREDPATH, we believe that railway collisions belong in the history books. Founded by a team of safety engineers and AI researchers, our mission is to engineer zero-risk environments for global rail operations.
     </p>
     <p style={{ marginBottom: '24px' }}>
       Our predictive collision avoidance system integrates real-time IoT sensor telemetry, cloud infrastructure, and intelligent decision engines to stop accidents before they happen.
@@ -67,7 +67,7 @@ export const BlogPage = ({ onBack }) => (
 );
 
 export const CareersPage = ({ onBack }) => (
-  <PageWrapper title="Careers at ZupZup" onBack={onBack} icon={Briefcase}>
+  <PageWrapper title="Careers at UNDISCOVEREDPATH" onBack={onBack} icon={Briefcase}>
     <p style={{ marginBottom: '40px', fontSize: '20px' }}>Join us in building the safety infrastructure of the future. We are currently hiring across engineering, product, and safety roles.</p>
     
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

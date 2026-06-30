@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
@@ -40,11 +40,11 @@ export default function App() {
   const [weather, setWeather] = useState({ condition: 'Heavy Rain', temp: 22, visibility: 'Low (1.2 km)', riskMultiplier: 1.5 });
   const [chartData, setChartData] = useState([20, 35, 10, 45, 80, 50, 15, 60]);
   const [cookieConsent, setCookieConsent] = useState(() => {
-    return localStorage.getItem('zupzup_cookie_consent') === 'true';
+    return localStorage.getItem('UNDISCOVEREDPATH_cookie_consent') === 'true';
   });
 
   const acceptCookies = () => {
-    localStorage.setItem('zupzup_cookie_consent', 'true');
+    localStorage.setItem('UNDISCOVEREDPATH_cookie_consent', 'true');
     setCookieConsent(true);
   };
 

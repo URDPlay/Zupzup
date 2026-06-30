@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function LinksPage({ onBack }) {
@@ -22,7 +22,7 @@ export default function LinksPage({ onBack }) {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: '80px' }}>
           <h1 style={{ fontSize: '48px', fontWeight: '800', color: '#0f172a', marginBottom: '16px', letterSpacing: '-1px' }}>Zero Collisions. Engineered In.</h1>
-          <p style={{ color: '#64748b', fontSize: '20px' }}>Explore the ZupZup ecosystem and safety technology.</p>
+          <p style={{ color: '#64748b', fontSize: '20px' }}>Explore the UNDISCOVEREDPATH ecosystem and safety technology.</p>
         </motion.div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px' }}>

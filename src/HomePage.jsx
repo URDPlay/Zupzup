@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   ShieldAlert, Train, Cpu, Radio, Zap, BarChart3,
@@ -378,7 +378,7 @@ function LiveSim() {
       <div className="rtc-topbar">
         <div className="rtc-topbar-left">
           <span className={`rtc-live-beacon rtc-live-beacon--${phase}`} />
-          <span className="rtc-topbar-title">ZUPZUP CONTROL CENTRE</span>
+          <span className="rtc-topbar-title">UNDISCOVEREDPATH CONTROL CENTRE</span>
           <span className="rtc-topbar-sep">|</span>
           <span className="rtc-topbar-sub">AI-POWERED TRAIN PROTECTION</span>
         </div>
@@ -571,9 +571,9 @@ function Navbar({ onLaunch }) {
       <div className="pf-nav-inner">
         <div className="pf-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className="pf-logo-icon" style={{ background: 'transparent' }}>
-            <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="ZupZup Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} />
+            <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="UNDISCOVEREDPATH Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} />
           </div>
-          <span className="pf-logo-text">ZupZup</span>
+          <span className="pf-logo-text">UNDISCOVEREDPATH</span>
         </div>
 
         <div className={`pf-links ${open ? 'pf-links--open' : ''}`}>
@@ -760,7 +760,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
   ];
 
   const testimonials = [
-    { name: 'Rajesh Mehta', role: 'Chief Safety Officer', org: 'IndiaRail', initials: 'RM', quote: 'ZupZup reduced near-miss incidents by 94 % in our first quarter of deployment — the most impactful safety technology we have adopted in decades.', delay: 0 },
+    { name: 'Rajesh Mehta', role: 'Chief Safety Officer', org: 'IndiaRail', initials: 'RM', quote: 'UNDISCOVEREDPATH reduced near-miss incidents by 94 % in our first quarter of deployment — the most impactful safety technology we have adopted in decades.', delay: 0 },
     { name: 'Dr. Priya Sharma', role: 'AI Researcher', org: 'IIT Delhi', initials: 'PS', quote: 'The 12-second prediction lead time is exceptional. That margin is more than enough for autonomous intervention — a genuine game changer for rail safety.', delay: 0.08 },
     { name: 'James Woolworth', role: 'Operations Director', org: 'TransEu Rail', initials: 'JW', quote: 'ROI was visible within two months — both in safety outcomes and measurable operational efficiency. Deploying across all 14 stations was the right call.', delay: 0.16 },
   ];
@@ -960,8 +960,8 @@ export default function HomePage({ onLaunch, onNavigate }) {
           <div className="pf-footer-top">
             <div className="pf-footer-brand">
               <div className="pf-logo">
-                <div className="pf-logo-icon" style={{ background: 'transparent' }}><img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="ZupZup Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} /></div>
-                <span className="pf-logo-text">ZupZup</span>
+                <div className="pf-logo-icon" style={{ background: 'transparent' }}><img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="UNDISCOVEREDPATH Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} /></div>
+                <span className="pf-logo-text">UNDISCOVEREDPATH</span>
               </div>
               <p className="pf-footer-tagline">Zero Collisions. Engineered In.</p>
               <div className="pf-footer-socials">
@@ -998,7 +998,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
             </div>
           </div>
           <div className="pf-footer-bottom">
-            <span>© 2026 ZupZup Railway Intelligence.</span>
+            <span>© 2026 UNDISCOVEREDPATH Railway Intelligence.</span>
             <div className="pf-footer-legal">
               <a href="#" onClick={e => { e.preventDefault(); onNavigate('privacy'); }}>Privacy</a>
               <a href="#" onClick={e => { e.preventDefault(); onNavigate('terms'); }}>Terms</a>

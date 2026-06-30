@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Shield, FileText, Cookie, CheckCircle, Lock, Eye, Server, Users, Mail } from 'lucide-react';
 
@@ -129,7 +129,7 @@ export function PrivacyPage({ onBack }) {
   return (
     <LegalWrapper
       title="Privacy Policy"
-      subtitle="How ZupZup collects, uses, and protects your information."
+      subtitle="How UNDISCOVEREDPATH collects, uses, and protects your information."
       icon={Shield}
       accent="#2563eb"
       onBack={onBack}
@@ -138,10 +138,10 @@ export function PrivacyPage({ onBack }) {
 
       <Section title="1. Introduction">
         <p style={{ margin: '0 0 12px' }}>
-          ZupZup Railway Intelligence ("we", "our", or "us") is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our platform or use our AI-powered railway safety services.
+          UNDISCOVEREDPATH Railway Intelligence ("we", "our", or "us") is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our platform or use our AI-powered railway safety services.
         </p>
         <p style={{ margin: 0 }}>
-          By using ZupZup, you agree to the collection and use of information in accordance with this policy.
+          By using UNDISCOVEREDPATH, you agree to the collection and use of information in accordance with this policy.
         </p>
       </Section>
 
@@ -155,7 +155,7 @@ export function PrivacyPage({ onBack }) {
       </Section>
 
       <Section title="3. How We Use Your Information">
-        <Bullet color="#059669" text="To provide, operate, and improve the ZupZup platform and AI safety engine." />
+        <Bullet color="#059669" text="To provide, operate, and improve the UNDISCOVEREDPATH platform and AI safety engine." />
         <Bullet color="#059669" text="To personalise your dashboard experience and send relevant operational alerts." />
         <Bullet color="#059669" text="To communicate service updates, security notices, and technical announcements." />
         <Bullet color="#059669" text="To comply with legal obligations and enforce our Terms of Service." />
@@ -188,13 +188,13 @@ export function PrivacyPage({ onBack }) {
         <Bullet text="Request data portability in a structured, machine-readable format." />
         <Bullet text="Withdraw consent at any time without affecting prior processing." />
         <p style={{ margin: '16px 0 0' }}>
-          To exercise these rights, contact us at <a href="mailto:privacy@zupzup.ai" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none' }}>privacy@zupzup.ai</a>.
+          To exercise these rights, contact us at <a href="mailto:privacy@UNDISCOVEREDPATH.ai" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none' }}>privacy@UNDISCOVEREDPATH.ai</a>.
         </p>
       </Section>
 
       <Section title="7. Contact Us">
         <p style={{ margin: 0 }}>
-          If you have questions about this Privacy Policy, reach out to our Data Protection Officer at <a href="mailto:dpo@zupzup.ai" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none' }}>dpo@zupzup.ai</a> or write to: ZupZup Railway Intelligence, 128 Innovation Drive, Tech District, CA 94103.
+          If you have questions about this Privacy Policy, reach out to our Data Protection Officer at <a href="mailto:dpo@UNDISCOVEREDPATH.ai" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none' }}>dpo@UNDISCOVEREDPATH.ai</a> or write to: UNDISCOVEREDPATH Railway Intelligence, 128 Innovation Drive, Tech District, CA 94103.
         </p>
       </Section>
     </LegalWrapper>
@@ -208,7 +208,7 @@ export function TermsPage({ onBack }) {
   return (
     <LegalWrapper
       title="Terms of Service"
-      subtitle="The rules and conditions governing your use of the ZupZup platform."
+      subtitle="The rules and conditions governing your use of the UNDISCOVEREDPATH platform."
       icon={FileText}
       accent="#7c3aed"
       onBack={onBack}
@@ -217,13 +217,13 @@ export function TermsPage({ onBack }) {
 
       <Section title="1. Acceptance of Terms">
         <p style={{ margin: 0 }}>
-          By accessing or using the ZupZup Railway Intelligence platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service. We reserve the right to update these Terms at any time with notice provided via email or in-platform notification.
+          By accessing or using the UNDISCOVEREDPATH Railway Intelligence platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service. We reserve the right to update these Terms at any time with notice provided via email or in-platform notification.
         </p>
       </Section>
 
       <Section title="2. Description of Service">
         <p style={{ margin: '0 0 12px' }}>
-          ZupZup provides an AI-powered railway safety and collision avoidance platform, including:
+          UNDISCOVEREDPATH provides an AI-powered railway safety and collision avoidance platform, including:
         </p>
         <Bullet color="#7c3aed" text="Real-time train tracking and monitoring dashboards." />
         <Bullet color="#7c3aed" text="Predictive collision risk assessment and automated emergency braking integration." />
@@ -242,13 +242,13 @@ export function TermsPage({ onBack }) {
 
       <Section title="4. Intellectual Property">
         <p style={{ margin: 0 }}>
-          All content, software, algorithms, trademarks, and materials provided by ZupZup are the exclusive intellectual property of ZupZup Railway Intelligence or its licensors. You are granted a limited, non-exclusive, non-transferable licence to access and use the Service for its intended purpose only.
+          All content, software, algorithms, trademarks, and materials provided by UNDISCOVEREDPATH are the exclusive intellectual property of UNDISCOVEREDPATH Railway Intelligence or its licensors. You are granted a limited, non-exclusive, non-transferable licence to access and use the Service for its intended purpose only.
         </p>
       </Section>
 
       <Section title="5. Disclaimer of Warranties">
         <p style={{ margin: '0 0 12px' }}>
-          The Service is provided "as is" and "as available". While ZupZup employs industry-leading safety engineering:
+          The Service is provided "as is" and "as available". While UNDISCOVEREDPATH employs industry-leading safety engineering:
         </p>
         <Bullet icon={Eye} color="#dc2626" text="The AI engine is a decision-support tool; human operators retain ultimate responsibility for safety decisions." />
         <Bullet icon={Eye} color="#dc2626" text="We do not warrant uninterrupted, error-free operation under all network or hardware conditions." />
@@ -257,13 +257,13 @@ export function TermsPage({ onBack }) {
 
       <Section title="6. Limitation of Liability">
         <p style={{ margin: 0 }}>
-          To the maximum extent permitted by law, ZupZup shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, arising from your use of or inability to use the Service. Our total cumulative liability shall not exceed the fees paid by you in the twelve (12) months preceding the claim.
+          To the maximum extent permitted by law, UNDISCOVEREDPATH shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, arising from your use of or inability to use the Service. Our total cumulative liability shall not exceed the fees paid by you in the twelve (12) months preceding the claim.
         </p>
       </Section>
 
       <Section title="7. Termination">
         <p style={{ margin: 0 }}>
-          We may suspend or terminate your access immediately if you breach these Terms or if continued access poses a safety or legal risk. You may terminate your account at any time by contacting <a href="mailto:support@zupzup.ai" style={{ color: '#7c3aed', fontWeight: '600', textDecoration: 'none' }}>support@zupzup.ai</a>.
+          We may suspend or terminate your access immediately if you breach these Terms or if continued access poses a safety or legal risk. You may terminate your account at any time by contacting <a href="mailto:support@UNDISCOVEREDPATH.ai" style={{ color: '#7c3aed', fontWeight: '600', textDecoration: 'none' }}>support@UNDISCOVEREDPATH.ai</a>.
         </p>
       </Section>
 
@@ -275,7 +275,7 @@ export function TermsPage({ onBack }) {
 
       <Section title="9. Contact">
         <p style={{ margin: 0 }}>
-          Questions regarding these Terms? Contact our legal team at <a href="mailto:legal@zupzup.ai" style={{ color: '#7c3aed', fontWeight: '600', textDecoration: 'none' }}>legal@zupzup.ai</a>.
+          Questions regarding these Terms? Contact our legal team at <a href="mailto:legal@UNDISCOVEREDPATH.ai" style={{ color: '#7c3aed', fontWeight: '600', textDecoration: 'none' }}>legal@UNDISCOVEREDPATH.ai</a>.
         </p>
       </Section>
     </LegalWrapper>
@@ -289,7 +289,7 @@ export function CookiesPage({ onBack }) {
   return (
     <LegalWrapper
       title="Cookie Policy"
-      subtitle="How and why ZupZup uses cookies and similar tracking technologies."
+      subtitle="How and why UNDISCOVEREDPATH uses cookies and similar tracking technologies."
       icon={Cookie}
       accent="#d97706"
       onBack={onBack}
@@ -298,7 +298,7 @@ export function CookiesPage({ onBack }) {
 
       <Section title="1. What Are Cookies?">
         <p style={{ margin: 0 }}>
-          Cookies are small text files placed on your device by websites you visit. They are widely used to make websites work efficiently, provide a better user experience, and give site owners information about usage patterns. ZupZup uses cookies and similar technologies (e.g., local storage, session storage) to operate and improve the platform.
+          Cookies are small text files placed on your device by websites you visit. They are widely used to make websites work efficiently, provide a better user experience, and give site owners information about usage patterns. UNDISCOVEREDPATH uses cookies and similar technologies (e.g., local storage, session storage) to operate and improve the platform.
         </p>
       </Section>
 
@@ -339,7 +339,7 @@ export function CookiesPage({ onBack }) {
         <Bullet icon={Cookie} color="#d97706" text="Block third-party cookies from being set." />
         <Bullet icon={Cookie} color="#d97706" text="Set preferences per website." />
         <p style={{ margin: '16px 0 0', fontSize: '14px', color: '#6b7280' }}>
-          Note: Disabling essential cookies may impair the functionality of the ZupZup safety dashboard and could affect platform reliability.
+          Note: Disabling essential cookies may impair the functionality of the UNDISCOVEREDPATH safety dashboard and could affect platform reliability.
         </p>
       </Section>
 
@@ -357,7 +357,7 @@ export function CookiesPage({ onBack }) {
 
       <Section title="6. Contact">
         <p style={{ margin: 0 }}>
-          For questions about our use of cookies, email us at <a href="mailto:privacy@zupzup.ai" style={{ color: '#d97706', fontWeight: '600', textDecoration: 'none' }}>privacy@zupzup.ai</a>.
+          For questions about our use of cookies, email us at <a href="mailto:privacy@UNDISCOVEREDPATH.ai" style={{ color: '#d97706', fontWeight: '600', textDecoration: 'none' }}>privacy@UNDISCOVEREDPATH.ai</a>.
         </p>
       </Section>
     </LegalWrapper>
