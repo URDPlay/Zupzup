@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, MapPin, Phone, Users, Briefcase, BookOpen } from 'lucide-react';
 
@@ -48,22 +48,10 @@ export const AboutPage = ({ onBack }) => (
   </PageWrapper>
 );
 
+import { BlogSection } from './BlogSection';
+
 export const BlogPage = ({ onBack }) => (
-  <PageWrapper title="Engineering Blog" onBack={onBack} icon={BookOpen}>
-    <p style={{ marginBottom: '40px', fontSize: '20px' }}>Discover our latest updates, technical deep-dives, and insights into railway safety technology.</p>
-    
-    {[
-      { date: 'June 12, 2026', title: 'How we achieved a 12s prediction lead time', excerpt: 'A deep dive into our new machine learning models and how weather conditions affect braking distance calculations.' },
-      { date: 'May 24, 2026', title: 'Scaling WebSocket connections for 10,000 active trains', excerpt: 'The architectural challenges behind our real-time telemetry pipelines and how we handle concurrent connections.' },
-      { date: 'April 02, 2026', title: 'Why manual overrides are still critical', excerpt: 'Although our AI operates autonomously, human intervention pathways must remain robust. Heres our design philosophy.' }
-    ].map((post, i) => (
-      <div key={i} className="card" style={{ marginBottom: '24px', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
-        <span style={{ fontSize: '14px', color: 'var(--primary)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>{post.date}</span>
-        <h3 style={{ fontSize: '24px', fontWeight: 'bold', margin: '12px 0', color: 'var(--text-main)' }}>{post.title}</h3>
-        <p style={{ fontSize: '16px', color: 'var(--text-muted)' }}>{post.excerpt}</p>
-      </div>
-    ))}
-  </PageWrapper>
+  <BlogSection onBack={onBack} />
 );
 
 export const CareersPage = ({ onBack }) => (

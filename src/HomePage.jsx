@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   ShieldAlert, Train, Cpu, Radio, Zap, BarChart3,
@@ -6,6 +6,7 @@ import {
   Lock, Eye, Clock, Star, Menu, X, Play, TrendingUp,
   ExternalLink, GitBranch, Share2, Database, Globe
 } from 'lucide-react';
+import { blogArticles } from './blogData';
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
 function useScrollY() {
@@ -928,6 +929,66 @@ export default function HomePage({ onLaunch, onNavigate }) {
           </motion.div>
           <div className="pf-tm-grid">
             {testimonials.map((t, i) => <Testimonial key={i} {...t} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* ── LATEST ARTICLES (GOOGLE STYLE) ─────────────────────────────────── */}
+      <section className="pf-section pf-bg-white" id="latest-articles" style={{ fontFamily: 'Roboto, Arial, sans-serif' }}>
+        <div className="pf-container" style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <motion.div className="pf-section-hd" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ width: '100%', maxWidth: '652px', textAlign: 'left', alignItems: 'flex-start' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 'normal', color: '#202124', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Search size={20} color="#1a73e8" /> 
+              Latest from the Engineering Blog
+            </h2>
+          </motion.div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', width: '100%', maxWidth: '652px' }}>
+            {blogArticles.slice(0, 3).map((article) => (
+              <article key={article.id} style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '14px', color: '#202124' }}>
+                    undiscoveredpath.in &rsaquo; blog &rsaquo; {article.category.toLowerCase().replace(/ /g, '-')}
+                  </span>
+                </div>
+                
+                <h3 style={{ margin: 0, padding: 0 }}>
+                  <button
+                    onClick={() => { if(onNavigate) { onNavigate('blog'); window.scrollTo(0,0); } }}
+                    style={{
+                      background: 'none', border: 'none', padding: 0,
+                      color: '#1a0dab', fontSize: '20px', lineHeight: '1.3',
+                      textAlign: 'left', cursor: 'pointer', textDecoration: 'none',
+                      fontWeight: '400', display: 'inline-block'
+                    }}
+                    onMouseOver={e => e.currentTarget.style.textDecoration = 'underline'}
+                    onMouseOut={e => e.currentTarget.style.textDecoration = 'none'}
+                  >
+                    {article.title}
+                  </button>
+                </h3>
+                
+                <p style={{ margin: '4px 0 0 0', fontSize: '14px', lineHeight: '1.58', color: '#4d5156' }}>
+                  <span style={{ color: '#70757a' }}>{article.date} — </span>
+                  {article.excerpt}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div style={{ width: '100%', maxWidth: '652px', marginTop: '32px' }}>
+            <button 
+              onClick={() => { if(onNavigate) { onNavigate('blog'); window.scrollTo(0,0); } }}
+              style={{
+                background: '#f8f9fa', border: '1px solid #f8f9fa', borderRadius: '18px',
+                color: '#202124', fontSize: '14px', padding: '10px 24px',
+                cursor: 'pointer', transition: 'box-shadow 0.2s'
+              }}
+              onMouseOver={e => { e.currentTarget.style.boxShadow = '0 1px 1px rgba(0,0,0,0.1)'; e.currentTarget.style.border = '1px solid #dadce0'; e.currentTarget.style.background = '#fff'; }}
+              onMouseOut={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.border = '1px solid #f8f9fa'; e.currentTarget.style.background = '#f8f9fa'; }}
+            >
+              More results
+            </button>
           </div>
         </div>
       </section>
