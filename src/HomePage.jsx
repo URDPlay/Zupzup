@@ -4,7 +4,7 @@ import {
   ShieldAlert, Train, Cpu, Radio, Zap, BarChart3,
   CheckCircle2, ArrowRight, ChevronDown, Activity, AlertTriangle,
   Lock, Eye, Clock, Star, Menu, X, Play, TrendingUp,
-  ExternalLink, GitBranch, Share2, Database, Globe
+  ExternalLink, GitBranch, Share2, Database, Globe, Search
 } from 'lucide-react';
 import { blogArticles } from './blogData';
 
