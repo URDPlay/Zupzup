@@ -60,9 +60,55 @@ export const BlogSection = ({ onBack }) => {
 
   return (
     <main style={{ minHeight: '100vh', background: '#ffffff', fontFamily: 'Roboto, Arial, sans-serif' }}>
+      <style>{`
+        .blog-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid #ebebeb;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .blog-search-row {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+        }
+        .blog-nav {
+          display: flex;
+          gap: 24px;
+          margin-left: 210px;
+          overflow-x: auto;
+          padding-bottom: 4px;
+        }
+        .blog-results {
+          padding: 24px;
+          max-width: 652px;
+          margin-left: max(24px, 210px);
+        }
+        @media (max-width: 768px) {
+          .blog-search-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+          }
+          .blog-search-row > div {
+            width: 100%;
+          }
+          .blog-nav {
+            margin-left: 0;
+            padding-left: 0;
+          }
+          .blog-results {
+            margin-left: auto;
+            margin-right: auto;
+            padding: 24px 16px;
+          }
+        }
+      `}</style>
+      
       {/* Header / Search Area */}
-      <header style={{ padding: '20px 24px', borderBottom: '1px solid #ebebeb', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <header className="blog-header">
+        <div className="blog-search-row">
           <button 
             onClick={onBack}
             style={{
@@ -95,7 +141,7 @@ export const BlogSection = ({ onBack }) => {
         </div>
 
         {/* Navigation Tabs */}
-        <nav style={{ display: 'flex', gap: '24px', marginLeft: '210px', overflowX: 'auto', paddingBottom: '4px' }}>
+        <nav className="blog-nav">
           {categories.map(category => (
             <button
               key={category}
@@ -119,7 +165,7 @@ export const BlogSection = ({ onBack }) => {
       </header>
       
       {/* Search Results */}
-      <div style={{ padding: '24px', maxWidth: '652px', marginLeft: 'max(24px, 210px)' }}>
+      <div className="blog-results">
         <div style={{ color: '#70757a', fontSize: '14px', marginBottom: '24px' }}>
           About {filteredArticles.length} results
         </div>
