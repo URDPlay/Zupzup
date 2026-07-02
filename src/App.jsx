@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
@@ -7,9 +7,19 @@ import {
   CloudRain, Sun, Thermometer, Video, BarChart2, Clock, Menu
 } from 'lucide-react';
 import HomePage from './HomePage';
-import { AboutPage, BlogPage, CareersPage, ContactPage } from './CompanyPages';
-import { FeaturesPage, ArchitecturePage, RoadmapPage, ChangelogPage } from './ProductPages';
-import { PrivacyPage, TermsPage, CookiesPage } from './LegalPages';
+const AboutPage = lazy(() => import('./CompanyPages').then(m => ({ default: m.AboutPage })));
+const BlogPage = lazy(() => import('./CompanyPages').then(m => ({ default: m.BlogPage })));
+const CareersPage = lazy(() => import('./CompanyPages').then(m => ({ default: m.CareersPage })));
+const ContactPage = lazy(() => import('./CompanyPages').then(m => ({ default: m.ContactPage })));
+
+const FeaturesPage = lazy(() => import('./ProductPages').then(m => ({ default: m.FeaturesPage })));
+const ArchitecturePage = lazy(() => import('./ProductPages').then(m => ({ default: m.ArchitecturePage })));
+const RoadmapPage = lazy(() => import('./ProductPages').then(m => ({ default: m.RoadmapPage })));
+const ChangelogPage = lazy(() => import('./ProductPages').then(m => ({ default: m.ChangelogPage })));
+
+const PrivacyPage = lazy(() => import('./LegalPages').then(m => ({ default: m.PrivacyPage })));
+const TermsPage = lazy(() => import('./LegalPages').then(m => ({ default: m.TermsPage })));
+const CookiesPage = lazy(() => import('./LegalPages').then(m => ({ default: m.CookiesPage })));
 
 import './index.css';
 
@@ -192,7 +202,9 @@ export default function App() {
           transition={{ duration: 0.3 }}
           style={{ width: '100%', backgroundColor: 'var(--bg-color)', color: 'var(--text-main)', overflowY: 'auto' }}
         >
-          {companyPages[page]}
+          <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</div>}>
+            {companyPages[page]}
+          </Suspense>
         </motion.div>
       </AnimatePresence>
     );
@@ -478,14 +490,14 @@ function CCTVFeeds() {
       </h2>
       <div className="cctv-grid">
          <div className="cctv-feed" style={{ position: 'relative', background: '#000', borderRadius: '6px', overflow: 'hidden', aspectRatio: '16/9' }}>
-            <img src="/cctv_mathura.png" alt="Camera 1" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
+            <img src="/cctv_mathura.webp" loading="lazy" decoding="async" alt="Camera 1" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
             <div className="cctv-overlay" style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.6)', padding: '4px 8px', borderRadius: '4px' }}>
                <span className="cctv-dot" style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%', animation: 'pulse-dot 1s infinite alternate' }}></span>
                <span className="cctv-label" style={{ color: '#fff', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.5px', fontFamily: 'monospace' }}>CAM-01: MATHURA JN</span>
             </div>
          </div>
          <div className="cctv-feed" style={{ position: 'relative', background: '#000', borderRadius: '6px', overflow: 'hidden', aspectRatio: '16/9' }}>
-            <img src="/cctv_palwal.png" alt="Camera 2" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
+            <img src="/cctv_palwal.webp" loading="lazy" decoding="async" alt="Camera 2" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, filter: 'grayscale(90%) contrast(140%) sepia(10%) hue-rotate(90deg)' }} />
             <div className="cctv-overlay" style={{ position: 'absolute', top: '8px', left: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.6)', padding: '4px 8px', borderRadius: '4px' }}>
                <span className="cctv-dot" style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%', animation: 'pulse-dot 1s infinite alternate' }}></span>
                <span className="cctv-label" style={{ color: '#fff', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.5px', fontFamily: 'monospace' }}>CAM-02: PALWAL YARD</span>
