@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Shield, FileText, Cookie, CheckCircle, Lock, Eye, Server, Users, Mail } from 'lucide-react';
 
@@ -76,14 +76,40 @@ function LegalWrapper({ title, subtitle, icon: Icon, accent, children, onBack })
             border: '1px solid #e2e8f0',
           }}
         >
-          {children}
+          <div style={{ padding: '60px 40px', fontSize: '16px', lineHeight: '1.8', color: '#334155' }}>
+            {children}
+          </div>
         </motion.div>
       </div>
+      <AdBanner slotId="8472938472" />
     </div>
   );
 }
 
-/* ─── Reusable Section ────────────────────────────────────────────────────── */
+// AdBanner Component
+function AdBanner({ slotId }) {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.warn("AdSense push error", e);
+    }
+  }, []);
+
+  return (
+    <div style={{ margin: '40px auto', textAlign: 'center', width: '100%', overflow: 'hidden' }}>
+      <p style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Advertisement</p>
+      <ins className="adsbygoogle"
+           style={{ display: 'block', minHeight: '90px' }}
+           data-ad-client="ca-pub-2538738703402430"
+           data-ad-slot={slotId || "auto"}
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+  );
+}
+
+/* ─── Shared Components ───────────────────────────────────────────────────── */
 function Section({ title, children }) {
   return (
     <section style={{ marginBottom: '40px' }}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { blogArticles } from './blogData';
 
@@ -53,8 +53,33 @@ export const BlogSection = ({ onBack }) => {
             style={{ fontSize: '16px', lineHeight: '1.6', color: '#3c4043' }}
             dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
           />
+
+          <AdBanner slotId="9876543210" />
         </article>
       </main>
+    );
+  }
+
+  // AdBanner Component
+  function AdBanner({ slotId }) {
+    useEffect(() => {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("AdSense push error", e);
+      }
+    }, []);
+  
+    return (
+      <div style={{ margin: '40px auto', textAlign: 'center', width: '100%', overflow: 'hidden' }}>
+        <p style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Advertisement</p>
+        <ins className="adsbygoogle"
+             style={{ display: 'block', minHeight: '90px' }}
+             data-ad-client="ca-pub-2538738703402430"
+             data-ad-slot={slotId || "auto"}
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
     );
   }
 
@@ -202,6 +227,8 @@ export const BlogSection = ({ onBack }) => {
             </article>
           ))}
         </div>
+
+        <AdBanner slotId="8765432109" />
 
         {filteredArticles.length === 0 && (
           <div style={{ marginTop: '40px' }}>

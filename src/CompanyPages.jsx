@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, MapPin, Phone, Users, Briefcase, BookOpen } from 'lucide-react';
 
@@ -23,9 +23,33 @@ const PageWrapper = ({ title, children, onBack, icon: Icon }) => (
       <div style={{ lineHeight: '1.8', fontSize: '18px', color: 'var(--text-muted)' }}>
         {children}
       </div>
+      <AdBanner slotId="7654321098" />
     </motion.div>
   </div>
 );
+
+// AdBanner Component
+function AdBanner({ slotId }) {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.warn("AdSense push error", e);
+    }
+  }, []);
+
+  return (
+    <div style={{ margin: '40px auto', textAlign: 'center', width: '100%', overflow: 'hidden' }}>
+      <p style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Advertisement</p>
+      <ins className="adsbygoogle"
+           style={{ display: 'block', minHeight: '90px' }}
+           data-ad-client="ca-pub-2538738703402430"
+           data-ad-slot={slotId || "auto"}
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+  );
+}
 
 export const AboutPage = ({ onBack }) => (
   <PageWrapper title="About UNDISCOVEREDPATH" onBack={onBack} icon={Users}>
