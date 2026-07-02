@@ -4,7 +4,7 @@ import {
   ShieldAlert, Train, Cpu, Radio, Zap, BarChart3,
   CheckCircle2, ArrowRight, ChevronDown, Activity, AlertTriangle,
   Lock, Eye, Clock, Star, Menu, X, Play, TrendingUp,
-  ExternalLink, GitBranch, Share2, Database, Globe, Search
+  ExternalLink, Database, Globe, Search
 } from 'lucide-react';
 import { blogArticles } from './blogData';
 
@@ -1025,11 +1025,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
                 <span className="pf-logo-text">UNDISCOVEREDPATH</span>
               </div>
               <p className="pf-footer-tagline">Zero Collisions. Engineered In.</p>
-              <div className="pf-footer-socials">
-                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><GitBranch size={15} /></a>
-                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><Share2 size={15} /></a>
-                <a href="#" className="pf-social" onClick={e => { e.preventDefault(); onNavigate('links'); }}><ExternalLink size={15} /></a>
-              </div>
+
             </div>
             <div className="pf-footer-links">
               {[

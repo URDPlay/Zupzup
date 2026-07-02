@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Activity, ShieldAlert, Train, Settings, LayoutDashboard, 
@@ -10,7 +10,7 @@ import HomePage from './HomePage';
 import { AboutPage, BlogPage, CareersPage, ContactPage } from './CompanyPages';
 import { FeaturesPage, ArchitecturePage, RoadmapPage, ChangelogPage } from './ProductPages';
 import { PrivacyPage, TermsPage, CookiesPage } from './LegalPages';
-import LinksPage from './LinksPage';
+
 import './index.css';
 
 // --- MOCK DATA & SIMULATION LOGIC ---
@@ -178,7 +178,7 @@ export default function App() {
     privacy: <PrivacyPage onBack={() => setPage('home')} />,
     terms: <TermsPage onBack={() => setPage('home')} />,
     cookies: <CookiesPage onBack={() => setPage('home')} />,
-    links: <LinksPage onBack={() => setPage('home')} />,
+
   };
 
   if (companyPages[page]) {
