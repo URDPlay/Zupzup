@@ -93,7 +93,7 @@ const articles = titles.map((title, i) => {
     id: i + 1,
     title: title,
     category: category,
-    date: new Date(2026, 5, 25 - i).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    date: (() => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); })(),
     author: i % 3 === 0 ? 'Sarah Jenkins' : i % 3 === 1 ? 'David Chen' : 'Dr. Elena Rostova',
     readTime: (Math.floor(Math.random() * 8) + 4) + ' min read',
     excerpt: 'An in-depth look at ' + title.toLowerCase() + ' and how it shapes the future of railway technology.',
