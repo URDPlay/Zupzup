@@ -50,9 +50,36 @@ export const BlogSection = ({ onBack }) => {
           </header>
 
           <div 
-            style={{ fontSize: '16px', lineHeight: '1.6', color: '#3c4043' }}
+            style={{ fontSize: '16px', lineHeight: '1.6', color: '#3c4043', marginBottom: '40px' }}
             dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
           />
+
+          {/* Author EEAT Box */}
+          <div style={{ 
+            display: 'flex', gap: '20px', padding: '24px', 
+            backgroundColor: '#f8f9fa', borderRadius: '12px',
+            border: '1px solid #e8eaed', marginBottom: '40px'
+          }}>
+            <div style={{
+              width: '64px', height: '64px', borderRadius: '50%',
+              backgroundColor: '#1a73e8', color: 'white',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '24px', fontWeight: 'bold', flexShrink: 0
+            }}>
+              {selectedArticle.author.charAt(0)}
+            </div>
+            <div>
+              <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', color: '#202124' }}>
+                {selectedArticle.author}
+              </h3>
+              <div style={{ fontSize: '14px', color: '#1a73e8', fontWeight: '500', marginBottom: '8px' }}>
+                {selectedArticle.authorTitle}
+              </div>
+              <p style={{ margin: 0, fontSize: '14px', color: '#5f6368', lineHeight: '1.5' }}>
+                {selectedArticle.authorBio}
+              </p>
+            </div>
+          </div>
 
           <AdBanner slotId="9876543210" />
         </article>

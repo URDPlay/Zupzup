@@ -104,6 +104,21 @@ const articleDefs = [
 
 // ─── Export — dates are always relative to today ──────────────────────────────
 
+const authorsData = {
+  "Sarah Jenkins": {
+    bio: "Lead AI Engineer specializing in predictive modeling and embedded neural networks for safety-critical systems.",
+    title: "Lead AI Engineer"
+  },
+  "David Chen": {
+    bio: "Senior Backend Architect focusing on high-throughput, low-latency telemetry pipelines and edge computing.",
+    title: "Senior Backend Architect"
+  },
+  "Dr. Elena Rostova": {
+    bio: "Head of Safety Research with a Ph.D. in Embedded Systems. Dedicated to fault-tolerant hardware and compliance.",
+    title: "Head of Safety Research"
+  }
+};
+
 export const blogArticles = articleDefs.map((def, i) => ({
   id:       def.id,
   title:    def.title,
@@ -111,6 +126,8 @@ export const blogArticles = articleDefs.map((def, i) => ({
   // Article 0 = today, article 1 = yesterday, etc.
   date:     getDate(i),
   author:   def.author,
+  authorTitle: authorsData[def.author]?.title || 'Contributor',
+  authorBio: authorsData[def.author]?.bio || 'Engineering contributor at UNDISCOVEREDPATH.',
   readTime: def.readTime,
   excerpt:  `An in-depth look at ${def.title.toLowerCase()} and how it shapes the future of railway technology.`,
   content:  def.contentFn(def.title),

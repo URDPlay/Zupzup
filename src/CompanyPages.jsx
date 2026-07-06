@@ -69,6 +69,28 @@ export const AboutPage = ({ onBack }) => (
         <p style={{ fontSize: '16px' }}>To deploy enterprise-grade automated braking and monitoring systems globally.</p>
       </div>
     </div>
+
+    <div style={{ marginTop: '64px' }}>
+      <h2 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '32px', color: 'var(--text-main)', borderBottom: '2px solid var(--border-color)', paddingBottom: '12px' }}>Leadership & Experts</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
+        {[
+          { name: 'Dr. Elena Rostova', title: 'Head of Safety Research', initials: 'ER', bio: 'Ph.D. in Embedded Systems. 15+ years experience in fault-tolerant railway hardware and safety compliance.' },
+          { name: 'David Chen', title: 'Senior Backend Architect', initials: 'DC', bio: 'Former Lead Engineer at major cloud providers, specializing in high-throughput, ultra-low latency telemetry.' },
+          { name: 'Sarah Jenkins', title: 'Lead AI Engineer', initials: 'SJ', bio: 'Pioneered our neural network risk-scoring engine. Expert in real-time predictive modeling.' }
+        ].map(expert => (
+          <div key={expert.name} style={{ display: 'flex', gap: '20px', padding: '24px', backgroundColor: 'var(--bg-color)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold', flexShrink: 0 }}>
+              {expert.initials}
+            </div>
+            <div>
+              <h3 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: 'bold', color: 'var(--text-main)' }}>{expert.name}</h3>
+              <div style={{ fontSize: '14px', color: 'var(--primary)', fontWeight: '600', marginBottom: '12px' }}>{expert.title}</div>
+              <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.5' }}>{expert.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   </PageWrapper>
 );
 

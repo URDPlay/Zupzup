@@ -171,6 +171,7 @@ export default function App() {
           style={{ width: '100%' }}
         >
           <HomePage onLaunch={() => setPage('app')} onNavigate={setPage} />
+          <GlobalFooter onNavigate={setPage} />
         </motion.div>
       </AnimatePresence>
     );
@@ -205,6 +206,7 @@ export default function App() {
           <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</div>}>
             {companyPages[page]}
           </Suspense>
+          <GlobalFooter onNavigate={setPage} />
         </motion.div>
       </AnimatePresence>
     );
@@ -307,43 +309,54 @@ export default function App() {
           bottom: '20px',
           left: '50%',
           transform: 'translateX(-50%)',
-          backgroundColor: '#1e293b',
-          color: '#f8fafc',
-          padding: '16px 24px',
-          borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+          backgroundColor: '#ffffff',
+          color: '#334155',
+          padding: '24px',
+          borderRadius: '16px',
+          boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '24px',
+          flexDirection: 'column',
+          gap: '16px',
           zIndex: 9999,
           maxWidth: '90%',
           width: '600px',
-          border: '1px solid #334155'
+          border: '1px solid #e2e8f0'
         }}>
-          <div style={{ flex: 1, fontSize: '14px', lineHeight: '1.5' }}>
-            <strong>We value your privacy.</strong> We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
-            <br />
+          <div style={{ flex: 1, fontSize: '14px', lineHeight: '1.6' }}>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold', color: '#0f172a' }}>We value your privacy</h4>
+            We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. 
             <button 
               onClick={() => { setPage('cookies'); setIsSidebarOpen(false); }} 
-              style={{ background: 'none', border: 'none', color: '#60a5fa', textDecoration: 'underline', padding: 0, marginTop: '4px', cursor: 'pointer' }}>
+              style={{ background: 'none', border: 'none', color: '#2563eb', textDecoration: 'underline', padding: 0, marginLeft: '4px', cursor: 'pointer' }}>
               Read our Cookie Policy
             </button>
           </div>
-          <button 
-            onClick={acceptCookies}
-            style={{
-              backgroundColor: '#2563eb',
-              color: 'white',
-              border: 'none',
-              padding: '10px 20px',
-              borderRadius: '6px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap'
-            }}>
-            Accept All
-          </button>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+            <button 
+              onClick={acceptCookies}
+              style={{
+                backgroundColor: 'transparent', color: '#64748b', border: '1px solid #cbd5e1',
+                padding: '8px 16px', borderRadius: '6px', fontWeight: '600', cursor: 'pointer'
+              }}>
+              Preferences
+            </button>
+            <button 
+              onClick={acceptCookies}
+              style={{
+                backgroundColor: '#f1f5f9', color: '#334155', border: 'none',
+                padding: '8px 16px', borderRadius: '6px', fontWeight: '600', cursor: 'pointer'
+              }}>
+              Reject All
+            </button>
+            <button 
+              onClick={acceptCookies}
+              style={{
+                backgroundColor: '#2563eb', color: 'white', border: 'none',
+                padding: '8px 24px', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer'
+              }}>
+              Accept All
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -722,5 +735,44 @@ function Node({ icon, label, sub, borderColor }) {
       <div className="title">{label}</div>
       <div className="sub">{sub}</div>
     </div>
+  );
+}
+
+function GlobalFooter({ onNavigate }) {
+  return (
+    <footer style={{ backgroundColor: '#0f172a', color: '#94a3b8', padding: '60px 24px 24px', fontFamily: "'Roboto', sans-serif" }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '40px', justifyContent: 'space-between' }}>
+        <div style={{ flex: '1 1 300px' }}>
+          <h3 style={{ color: 'white', fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="Logo" style={{ width: '24px', height: '24px', borderRadius: '4px' }} />
+            UNDISCOVEREDPATH
+          </h3>
+          <p style={{ lineHeight: '1.6', marginBottom: '24px' }}>AI-powered predictive collision avoidance systems ensuring zero-collision rail networks worldwide.</p>
+          <p style={{ fontSize: '14px' }}>128 Innovation Drive, Tech District, CA 94103<br />hello@undiscoveredpath.in</p>
+        </div>
+        <div style={{ display: 'flex', gap: '60px', flexWrap: 'wrap' }}>
+          <div>
+            <h4 style={{ color: 'white', fontWeight: '600', marginBottom: '16px' }}>Company</h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <li><button onClick={() => onNavigate('about')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>About Us</button></li>
+              <li><button onClick={() => onNavigate('blog')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Engineering Blog</button></li>
+              <li><button onClick={() => onNavigate('careers')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Careers</button></li>
+              <li><button onClick={() => onNavigate('contact')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Contact</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 style={{ color: 'white', fontWeight: '600', marginBottom: '16px' }}>Legal</h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <li><button onClick={() => onNavigate('privacy')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Privacy Policy</button></li>
+              <li><button onClick={() => onNavigate('terms')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Terms of Service</button></li>
+              <li><button onClick={() => onNavigate('cookies')} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}>Cookie Policy</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style={{ maxWidth: '1200px', margin: '40px auto 0', paddingTop: '24px', borderTop: '1px solid #1e293b', textAlign: 'center', fontSize: '14px' }}>
+        &copy; {new Date().getFullYear()} UNDISCOVEREDPATH Railway Intelligence. All rights reserved.
+      </div>
+    </footer>
   );
 }
