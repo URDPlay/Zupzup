@@ -1015,55 +1015,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────────────────────────────── */}
-      <footer className="pf-footer">
-        <div className="pf-container">
-          <div className="pf-footer-top">
-            <div className="pf-footer-brand">
-              <div className="pf-logo">
-                <div className="pf-logo-icon" style={{ background: 'transparent' }}><img src="https://t3.ftcdn.net/jpg/04/32/54/24/360_F_432542454_kfzQHjWPgdi4sx9EfXqOLPzSXFiJBf8l.jpg" alt="UNDISCOVEREDPATH Logo" style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }} /></div>
-                <span className="pf-logo-text">UNDISCOVEREDPATH</span>
-              </div>
-              <p className="pf-footer-tagline">Zero Collisions. Engineered In.</p>
 
-            </div>
-            <div className="pf-footer-links">
-              {[
-                { heading: 'Product', links: ['Features', 'Architecture', 'Roadmap', 'Changelog'] },
-                { heading: 'Technology', links: ['AI Engine', 'IoT Sensors', 'API Docs', 'Security'] },
-                { heading: 'Company', links: ['About', 'Blog', 'Careers', 'Contact'] },
-              ].map(col => (
-                <div key={col.heading} className="pf-footer-col">
-                  <div className="pf-footer-col-hd">{col.heading}</div>
-                  {col.links.map(l => (
-                    <a 
-                      key={l} 
-                      href="#" 
-                      className="pf-footer-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (onNavigate && (col.heading === 'Company' || col.heading === 'Product')) {
-                          onNavigate(l.toLowerCase());
-                        }
-                      }}
-                    >
-                      {l}
-                    </a>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="pf-footer-bottom">
-            <span>© 2026 UNDISCOVEREDPATH Railway Intelligence.</span>
-            <div className="pf-footer-legal">
-              <a href="#" onClick={e => { e.preventDefault(); onNavigate('privacy'); }}>Privacy</a>
-              <a href="#" onClick={e => { e.preventDefault(); onNavigate('terms'); }}>Terms</a>
-              <a href="#" onClick={e => { e.preventDefault(); onNavigate('cookies'); }}>Cookies</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
