@@ -3,132 +3,309 @@
 // fresh. Article 0 = today, article 1 = yesterday, and so on.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const getDate = (daysAgo) => {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-};
-
-// ─── Article content blocks ───────────────────────────────────────────────────
-
-const content_ai = (title) => `
-    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>${title}</strong> represents a monumental shift in how we process dynamic environmental variables.</p>
-    <h3>Data Pipeline and Model Training</h3>
-    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>
-    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>
-    <h3>Inference at the Edge</h3>
-    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>
-    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>
-    <h3>Conclusion &amp; Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-
-const content_safety = (title) => `
-    <p>Safety is the foundational pillar of everything we do. The topic of <strong>${title}</strong> cuts to the core of our engineering philosophy.</p>
-    <h3>The Swiss Cheese Model</h3>
-    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>
-    <h3>Fail-Safe Architectures</h3>
-    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>
-    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>
-    <h3>Conclusion &amp; Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-
-const content_iot = (title) => `
-    <p>The physical manifestation of our software is just as critical as the code itself. <strong>${title}</strong> highlights the extreme challenges of building hardware for locomotives.</p>
-    <h3>Vibration and Thermal Constraints</h3>
-    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>
-    <h3>Sensor Integration</h3>
-    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>
-    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>
-    <h3>Conclusion &amp; Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-
-const content_eng = (title) => `
-    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>${title}</strong> is a testament to our rigorous development practices.</p>
-    <h3>Memory Safety and Concurrency</h3>
-    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>
-    <h3>Microservices and Telemetry</h3>
-    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>
-    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>
-    <h3>Conclusion &amp; Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-
-const content_news = (title) => `
-    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>${title}</strong> marks another significant milestone for our team.</p>
-    <h3>Recent Milestones</h3>
-    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>
-    <h3>Looking to the Future</h3>
-    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>
-    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>
-    <h3>Conclusion &amp; Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-
-// ─── Static article definitions (no dates — added dynamically below) ──────────
-
-const articleDefs = [
-  { id: 1,  title: "The Future of Predictive Braking in High-Speed Rail",               category: "AI & Machine Learning", author: "Sarah Jenkins",    readTime: "9 min read",  contentFn: content_ai },
-  { id: 2,  title: "How We Scaled Our WebSocket Infrastructure for 10,000 Trains",       category: "Railway Safety",        author: "David Chen",       readTime: "9 min read",  contentFn: content_safety },
-  { id: 3,  title: "Deep Learning Models for Weather-Adaptive Collision Avoidance",      category: "IoT & Hardware",        author: "Dr. Elena Rostova", readTime: "9 min read",  contentFn: content_iot },
-  { id: 4,  title: "Why Edge Computing is Crucial for Railway IoT",                      category: "Engineering",           author: "Sarah Jenkins",    readTime: "8 min read",  contentFn: content_eng },
-  { id: 5,  title: "Understanding the Physics of Train Deceleration",                    category: "Company News",          author: "David Chen",       readTime: "9 min read",  contentFn: content_news },
-  { id: 6,  title: "Building a Zero-Trust Architecture for Railway Networks",            category: "AI & Machine Learning", author: "Dr. Elena Rostova", readTime: "8 min read",  contentFn: content_ai },
-  { id: 7,  title: "The Role of Computer Vision in Track Anomaly Detection",             category: "Railway Safety",        author: "Sarah Jenkins",    readTime: "4 min read",  contentFn: content_safety },
-  { id: 8,  title: "Case Study: Preventing a Major Collision in the Northeast Corridor", category: "IoT & Hardware",        author: "David Chen",       readTime: "11 min read", contentFn: content_iot },
-  { id: 9,  title: "Migrating to Rust for Mission-Critical Embedded Systems",            category: "Engineering",           author: "Dr. Elena Rostova", readTime: "4 min read",  contentFn: content_eng },
-  { id: 10, title: "The Ethics of AI in Automated Transport Systems",                    category: "Company News",          author: "Sarah Jenkins",    readTime: "6 min read",  contentFn: content_news },
-  { id: 11, title: "Optimizing Sensor Data Pipelines with Apache Kafka",                 category: "AI & Machine Learning", author: "David Chen",       readTime: "6 min read",  contentFn: content_ai },
-  { id: 12, title: "How 5G is Revolutionizing Train-to-Train Communication",             category: "Railway Safety",        author: "Dr. Elena Rostova", readTime: "6 min read",  contentFn: content_safety },
-  { id: 13, title: "Designing Fault-Tolerant Systems for Extreme Weather",               category: "IoT & Hardware",        author: "Sarah Jenkins",    readTime: "11 min read", contentFn: content_iot },
-  { id: 14, title: "The Math Behind Our 12-Second Prediction Window",                    category: "Engineering",           author: "David Chen",       readTime: "8 min read",  contentFn: content_eng },
-  { id: 15, title: "A Deep Dive into LIDAR Applications on Locomotives",                 category: "Company News",          author: "Dr. Elena Rostova", readTime: "9 min read",  contentFn: content_news },
-  { id: 16, title: "Overcoming Latency in Cloud-Based Safety Dashboards",                category: "AI & Machine Learning", author: "Sarah Jenkins",    readTime: "10 min read", contentFn: content_ai },
-  { id: 17, title: "The Evolution of Railway Signaling: From Semaphores to AI",          category: "Railway Safety",        author: "David Chen",       readTime: "8 min read",  contentFn: content_safety },
-  { id: 18, title: "Securing V2X Communications Against Cyber Threats",                  category: "IoT & Hardware",        author: "Dr. Elena Rostova", readTime: "4 min read",  contentFn: content_iot },
-  { id: 19, title: "How We Use Reinforcement Learning to Optimize Braking Curves",       category: "Engineering",           author: "Sarah Jenkins",    readTime: "8 min read",  contentFn: content_eng },
-  { id: 20, title: "The Importance of Redundancy in Safety-Critical Hardware",           category: "Company News",          author: "David Chen",       readTime: "5 min read",  contentFn: content_news },
-  { id: 21, title: "Our Journey to SOC2 Compliance for Railway Data",                   category: "AI & Machine Learning", author: "Dr. Elena Rostova", readTime: "7 min read",  contentFn: content_ai },
-  { id: 22, title: "Integrating Legacy Train Control Systems with Modern AI",            category: "Railway Safety",        author: "Sarah Jenkins",    readTime: "5 min read",  contentFn: content_safety },
-  { id: 23, title: "The Impact of Climate Change on Track Integrity Monitoring",         category: "IoT & Hardware",        author: "David Chen",       readTime: "8 min read",  contentFn: content_iot },
-  { id: 24, title: "Building a Design System for High-Stress Operator Dashboards",      category: "Engineering",           author: "Dr. Elena Rostova", readTime: "6 min read",  contentFn: content_eng },
-  { id: 25, title: "What's Next for UNDISCOVEREDPATH: 2027 Roadmap",                    category: "Company News",          author: "Sarah Jenkins",    readTime: "11 min read", contentFn: content_news },
+export const blogArticles = [
+  {
+    "id": 1,
+    "title": "Introducing Version 3.3.0: Intelligent Sensor Fusion and Drone-Assisted Track Inspections",
+    "category": "AI & Machine Learning",
+    "date": "July 10, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "7 min read",
+    "excerpt": "An in-depth look at introducing version 3.3.0: intelligent sensor fusion and drone-assisted track inspections and how it shapes the future of railway technology.",
+    "content": "\n      <p>We are thrilled to announce the official release of <strong>Version 3.3.0</strong> of the UNDISCOVEREDPATH Railway Intelligence System. This release introduces two major technological breakthroughs: <strong>Intelligent Multi-Modal Sensor Fusion</strong> and <strong>Drone-Assisted Track Anomaly Sweepers</strong>.</p>\n      <h3>Intelligent Multi-Modal Sensor Fusion</h3>\n      <p>Locomotives now run our next-generation neural path fusion model at the edge. By combining real-time data from solid-state LIDAR, millimeter-wave radar, and high-framerate optical cameras, the AI constructs a unified 3D spatial vector of the track ahead. This sensor fusion increases threat detection reliability by 24% under extreme weather conditions (such as heavy monsoon rains and dense fog) and eliminates sensor blind spots.</p>\n      <h3>Drone-Assisted Track Inspections</h3>\n      <p>Version 3.3.0 introduces telemetry integration with autonomous track-sweeping drones. These drones fly ahead of trains in low-visibility zones, scanning the tracks for structural anomalies, landslides, or crossing incursions, and stream high-bandwidth telemetry directly back to our edge controllers. If an obstacle is detected, the train's AI guardian is notified up to 60 seconds before arrival, allowing for a smooth and gradual deceleration.</p>\n      <h3>Edge-Processing Speed Envelopes</h3>\n      <p>The system now dynamically adapts the safe speed envelope based on real-time atmospheric visibility telemetry. If visibility drops below 1.2 kilometers, the AI applies a non-intrusive speed restriction, ensuring that the train's deceleration curve is always aligned with its sensor horizons.</p>\n    \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 2,
+    "title": "The Future of Predictive Braking in High-Speed Rail",
+    "category": "Railway Safety",
+    "date": "July 9, 2026",
+    "author": "David Chen",
+    "readTime": "11 min read",
+    "excerpt": "An in-depth look at the future of predictive braking in high-speed rail and how it shapes the future of railway technology.",
+    "content": "\n    <p>Safety is the foundational pillar of everything we do. The topic of <strong>The Future of Predictive Braking in High-Speed Rail</strong> cuts to the core of our engineering philosophy.</p>\n    <h3>The Swiss Cheese Model</h3>\n    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>\n    <h3>Fail-Safe Architectures</h3>\n    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>\n    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 3,
+    "title": "How We Scaled Our WebSocket Infrastructure for 10,000 Trains",
+    "category": "IoT & Hardware",
+    "date": "July 8, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "9 min read",
+    "excerpt": "An in-depth look at how we scaled our websocket infrastructure for 10,000 trains and how it shapes the future of railway technology.",
+    "content": "\n    <p>The physical manifestation of our software is just as critical as the code itself. <strong>How We Scaled Our WebSocket Infrastructure for 10,000 Trains</strong> highlights the extreme challenges of building hardware for locomotives.</p>\n    <h3>Vibration and Thermal Constraints</h3>\n    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>\n    <h3>Sensor Integration</h3>\n    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>\n    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 4,
+    "title": "Deep Learning Models for Weather-Adaptive Collision Avoidance",
+    "category": "Engineering",
+    "date": "July 7, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at deep learning models for weather-adaptive collision avoidance and how it shapes the future of railway technology.",
+    "content": "\n    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>Deep Learning Models for Weather-Adaptive Collision Avoidance</strong> is a testament to our rigorous development practices.</p>\n    <h3>Memory Safety and Concurrency</h3>\n    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>\n    <h3>Microservices and Telemetry</h3>\n    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>\n    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 5,
+    "title": "Why Edge Computing is Crucial for Railway IoT",
+    "category": "Company News",
+    "date": "July 6, 2026",
+    "author": "David Chen",
+    "readTime": "11 min read",
+    "excerpt": "An in-depth look at why edge computing is crucial for railway iot and how it shapes the future of railway technology.",
+    "content": "\n    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>Why Edge Computing is Crucial for Railway IoT</strong> marks another significant milestone for our team.</p>\n    <h3>Recent Milestones</h3>\n    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>\n    <h3>Looking to the Future</h3>\n    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>\n    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 6,
+    "title": "Understanding the Physics of Train Deceleration",
+    "category": "AI & Machine Learning",
+    "date": "July 5, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at understanding the physics of train deceleration and how it shapes the future of railway technology.",
+    "content": "\n    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>Understanding the Physics of Train Deceleration</strong> represents a monumental shift in how we process dynamic environmental variables.</p>\n    <h3>Data Pipeline and Model Training</h3>\n    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>\n    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>\n    <h3>Inference at the Edge</h3>\n    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>\n    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 7,
+    "title": "Building a Zero-Trust Architecture for Railway Networks",
+    "category": "Railway Safety",
+    "date": "July 4, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "4 min read",
+    "excerpt": "An in-depth look at building a zero-trust architecture for railway networks and how it shapes the future of railway technology.",
+    "content": "\n    <p>Safety is the foundational pillar of everything we do. The topic of <strong>Building a Zero-Trust Architecture for Railway Networks</strong> cuts to the core of our engineering philosophy.</p>\n    <h3>The Swiss Cheese Model</h3>\n    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>\n    <h3>Fail-Safe Architectures</h3>\n    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>\n    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 8,
+    "title": "The Role of Computer Vision in Track Anomaly Detection",
+    "category": "IoT & Hardware",
+    "date": "July 3, 2026",
+    "author": "David Chen",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at the role of computer vision in track anomaly detection and how it shapes the future of railway technology.",
+    "content": "\n    <p>The physical manifestation of our software is just as critical as the code itself. <strong>The Role of Computer Vision in Track Anomaly Detection</strong> highlights the extreme challenges of building hardware for locomotives.</p>\n    <h3>Vibration and Thermal Constraints</h3>\n    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>\n    <h3>Sensor Integration</h3>\n    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>\n    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 9,
+    "title": "Case Study: Preventing a Major Collision in the Northeast Corridor",
+    "category": "Engineering",
+    "date": "July 2, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "10 min read",
+    "excerpt": "An in-depth look at case study: preventing a major collision in the northeast corridor and how it shapes the future of railway technology.",
+    "content": "\n    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>Case Study: Preventing a Major Collision in the Northeast Corridor</strong> is a testament to our rigorous development practices.</p>\n    <h3>Memory Safety and Concurrency</h3>\n    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>\n    <h3>Microservices and Telemetry</h3>\n    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>\n    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 10,
+    "title": "Migrating to Rust for Mission-Critical Embedded Systems",
+    "category": "Company News",
+    "date": "July 1, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "4 min read",
+    "excerpt": "An in-depth look at migrating to rust for mission-critical embedded systems and how it shapes the future of railway technology.",
+    "content": "\n    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>Migrating to Rust for Mission-Critical Embedded Systems</strong> marks another significant milestone for our team.</p>\n    <h3>Recent Milestones</h3>\n    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>\n    <h3>Looking to the Future</h3>\n    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>\n    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 11,
+    "title": "The Ethics of AI in Automated Transport Systems",
+    "category": "AI & Machine Learning",
+    "date": "June 30, 2026",
+    "author": "David Chen",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at the ethics of ai in automated transport systems and how it shapes the future of railway technology.",
+    "content": "\n    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>The Ethics of AI in Automated Transport Systems</strong> represents a monumental shift in how we process dynamic environmental variables.</p>\n    <h3>Data Pipeline and Model Training</h3>\n    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>\n    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>\n    <h3>Inference at the Edge</h3>\n    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>\n    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 12,
+    "title": "Optimizing Sensor Data Pipelines with Apache Kafka",
+    "category": "Railway Safety",
+    "date": "June 29, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "4 min read",
+    "excerpt": "An in-depth look at optimizing sensor data pipelines with apache kafka and how it shapes the future of railway technology.",
+    "content": "\n    <p>Safety is the foundational pillar of everything we do. The topic of <strong>Optimizing Sensor Data Pipelines with Apache Kafka</strong> cuts to the core of our engineering philosophy.</p>\n    <h3>The Swiss Cheese Model</h3>\n    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>\n    <h3>Fail-Safe Architectures</h3>\n    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>\n    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 13,
+    "title": "How 5G is Revolutionizing Train-to-Train Communication",
+    "category": "IoT & Hardware",
+    "date": "June 28, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "7 min read",
+    "excerpt": "An in-depth look at how 5g is revolutionizing train-to-train communication and how it shapes the future of railway technology.",
+    "content": "\n    <p>The physical manifestation of our software is just as critical as the code itself. <strong>How 5G is Revolutionizing Train-to-Train Communication</strong> highlights the extreme challenges of building hardware for locomotives.</p>\n    <h3>Vibration and Thermal Constraints</h3>\n    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>\n    <h3>Sensor Integration</h3>\n    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>\n    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 14,
+    "title": "Designing Fault-Tolerant Systems for Extreme Weather",
+    "category": "Engineering",
+    "date": "June 27, 2026",
+    "author": "David Chen",
+    "readTime": "7 min read",
+    "excerpt": "An in-depth look at designing fault-tolerant systems for extreme weather and how it shapes the future of railway technology.",
+    "content": "\n    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>Designing Fault-Tolerant Systems for Extreme Weather</strong> is a testament to our rigorous development practices.</p>\n    <h3>Memory Safety and Concurrency</h3>\n    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>\n    <h3>Microservices and Telemetry</h3>\n    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>\n    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 15,
+    "title": "The Math Behind Our 12-Second Prediction Window",
+    "category": "Company News",
+    "date": "June 26, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "7 min read",
+    "excerpt": "An in-depth look at the math behind our 12-second prediction window and how it shapes the future of railway technology.",
+    "content": "\n    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>The Math Behind Our 12-Second Prediction Window</strong> marks another significant milestone for our team.</p>\n    <h3>Recent Milestones</h3>\n    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>\n    <h3>Looking to the Future</h3>\n    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>\n    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 16,
+    "title": "A Deep Dive into LIDAR Applications on Locomotives",
+    "category": "AI & Machine Learning",
+    "date": "June 25, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "8 min read",
+    "excerpt": "An in-depth look at a deep dive into lidar applications on locomotives and how it shapes the future of railway technology.",
+    "content": "\n    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>A Deep Dive into LIDAR Applications on Locomotives</strong> represents a monumental shift in how we process dynamic environmental variables.</p>\n    <h3>Data Pipeline and Model Training</h3>\n    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>\n    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>\n    <h3>Inference at the Edge</h3>\n    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>\n    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 17,
+    "title": "Overcoming Latency in Cloud-Based Safety Dashboards",
+    "category": "Railway Safety",
+    "date": "June 24, 2026",
+    "author": "David Chen",
+    "readTime": "7 min read",
+    "excerpt": "An in-depth look at overcoming latency in cloud-based safety dashboards and how it shapes the future of railway technology.",
+    "content": "\n    <p>Safety is the foundational pillar of everything we do. The topic of <strong>Overcoming Latency in Cloud-Based Safety Dashboards</strong> cuts to the core of our engineering philosophy.</p>\n    <h3>The Swiss Cheese Model</h3>\n    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>\n    <h3>Fail-Safe Architectures</h3>\n    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>\n    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 18,
+    "title": "The Evolution of Railway Signaling: From Semaphores to AI",
+    "category": "IoT & Hardware",
+    "date": "June 23, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "4 min read",
+    "excerpt": "An in-depth look at the evolution of railway signaling: from semaphores to ai and how it shapes the future of railway technology.",
+    "content": "\n    <p>The physical manifestation of our software is just as critical as the code itself. <strong>The Evolution of Railway Signaling: From Semaphores to AI</strong> highlights the extreme challenges of building hardware for locomotives.</p>\n    <h3>Vibration and Thermal Constraints</h3>\n    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>\n    <h3>Sensor Integration</h3>\n    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>\n    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 19,
+    "title": "Securing V2X Communications Against Cyber Threats",
+    "category": "Engineering",
+    "date": "June 22, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "9 min read",
+    "excerpt": "An in-depth look at securing v2x communications against cyber threats and how it shapes the future of railway technology.",
+    "content": "\n    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>Securing V2X Communications Against Cyber Threats</strong> is a testament to our rigorous development practices.</p>\n    <h3>Memory Safety and Concurrency</h3>\n    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>\n    <h3>Microservices and Telemetry</h3>\n    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>\n    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 20,
+    "title": "How We Use Reinforcement Learning to Optimize Braking Curves",
+    "category": "Company News",
+    "date": "June 21, 2026",
+    "author": "David Chen",
+    "readTime": "6 min read",
+    "excerpt": "An in-depth look at how we use reinforcement learning to optimize braking curves and how it shapes the future of railway technology.",
+    "content": "\n    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>How We Use Reinforcement Learning to Optimize Braking Curves</strong> marks another significant milestone for our team.</p>\n    <h3>Recent Milestones</h3>\n    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>\n    <h3>Looking to the Future</h3>\n    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>\n    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 21,
+    "title": "The Importance of Redundancy in Safety-Critical Hardware",
+    "category": "AI & Machine Learning",
+    "date": "June 20, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "4 min read",
+    "excerpt": "An in-depth look at the importance of redundancy in safety-critical hardware and how it shapes the future of railway technology.",
+    "content": "\n    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>The Importance of Redundancy in Safety-Critical Hardware</strong> represents a monumental shift in how we process dynamic environmental variables.</p>\n    <h3>Data Pipeline and Model Training</h3>\n    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>\n    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>\n    <h3>Inference at the Edge</h3>\n    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>\n    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 22,
+    "title": "Our Journey to SOC2 Compliance for Railway Data",
+    "category": "Railway Safety",
+    "date": "June 19, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "8 min read",
+    "excerpt": "An in-depth look at our journey to soc2 compliance for railway data and how it shapes the future of railway technology.",
+    "content": "\n    <p>Safety is the foundational pillar of everything we do. The topic of <strong>Our Journey to SOC2 Compliance for Railway Data</strong> cuts to the core of our engineering philosophy.</p>\n    <h3>The Swiss Cheese Model</h3>\n    <p>In safety engineering, we rely on the Swiss Cheese Model of accident causation. Every layer of defense has holes, but if you stack enough layers, a catastrophic failure is prevented. Our system acts as the ultimate backstop. It does not replace existing signaling or the operator; it is an independent, non-intrusive overlay.</p>\n    <h3>Fail-Safe Architectures</h3>\n    <p>We mandate fail-safe design in all hardware and software. If a sensor fails, the system defaults to a degraded mode that enforces stricter speed limits, rather than shutting down. If the main processor fails, a hot-standby unit takes over in less than 20 milliseconds.</p>\n    <p>This level of reliability is achieved through Triple Modular Redundancy (TMR). Three separate computers process the same data streams simultaneously. If they disagree, a voting mechanism determines the correct action. This guarantees that hardware faults do not propagate into unsafe physical actions.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 23,
+    "title": "Integrating Legacy Train Control Systems with Modern AI",
+    "category": "IoT & Hardware",
+    "date": "June 18, 2026",
+    "author": "David Chen",
+    "readTime": "9 min read",
+    "excerpt": "An in-depth look at integrating legacy train control systems with modern ai and how it shapes the future of railway technology.",
+    "content": "\n    <p>The physical manifestation of our software is just as critical as the code itself. <strong>Integrating Legacy Train Control Systems with Modern AI</strong> highlights the extreme challenges of building hardware for locomotives.</p>\n    <h3>Vibration and Thermal Constraints</h3>\n    <p>A train is a hostile environment for electronics. Constant high-frequency vibration and extreme temperature swings can destroy commercial-grade hardware in days. Our compute units are housed in solid aluminum blocks, sealed with industrial epoxy, and utilize passive cooling mechanisms.</p>\n    <h3>Sensor Integration</h3>\n    <p>We deploy a multi-modal sensor array on the front of the locomotive. Radar provides long-range distance measurement regardless of weather. LIDAR offers high-resolution 3D mapping for object classification. Thermal cameras cut through fog and darkness to identify biological hazards (wildlife or humans).</p>\n    <p>The synchronization of these sensors is paramount. Using Precision Time Protocol (PTP), we ensure all data packets are timestamped with microsecond accuracy, preventing ghosting or jitter in the perceived 3D environment.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 24,
+    "title": "The Impact of Climate Change on Track Integrity Monitoring",
+    "category": "Engineering",
+    "date": "June 17, 2026",
+    "author": "Dr. Elena Rostova",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at the impact of climate change on track integrity monitoring and how it shapes the future of railway technology.",
+    "content": "\n    <p>Software engineering for safety-critical systems requires a fundamentally different approach. <strong>The Impact of Climate Change on Track Integrity Monitoring</strong> is a testament to our rigorous development practices.</p>\n    <h3>Memory Safety and Concurrency</h3>\n    <p>We have largely migrated our embedded systems from C++ to Rust. The borrow checker in Rust eliminates entire classes of memory safety bugs—like use-after-free and data races—at compile time. In a system that controls a 10,000-ton vehicle, a segfault is unacceptable.</p>\n    <h3>Microservices and Telemetry</h3>\n    <p>On the backend, our cloud infrastructure is built on Go and deployed via Kubernetes. We manage a fleet of thousands of trains, each streaming telemetry data via WebSockets and MQTT. Apache Kafka serves as the central nervous system, buffering and distributing millions of messages per second to our analytics and dashboarding services.</p>\n    <p>This architecture allows operators to have a sub-second real-time view of their entire network, while historical data is seamlessly archived into cold storage for compliance and model training.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 25,
+    "title": "Building a Design System for High-Stress Operator Dashboards",
+    "category": "Company News",
+    "date": "June 16, 2026",
+    "author": "Sarah Jenkins",
+    "readTime": "10 min read",
+    "excerpt": "An in-depth look at building a design system for high-stress operator dashboards and how it shapes the future of railway technology.",
+    "content": "\n    <p>At UNDISCOVEREDPATH, our journey is moving faster than ever. <strong>Building a Design System for High-Stress Operator Dashboards</strong> marks another significant milestone for our team.</p>\n    <h3>Recent Milestones</h3>\n    <p>Over the past quarter, we have successfully deployed our AI guardian system across an additional 2,500 miles of track. This expansion was accompanied by the rollout of our Version 3.2 firmware, which improved braking prediction accuracy by 14% in heavy rain conditions.</p>\n    <h3>Looking to the Future</h3>\n    <p>Our roadmap for the next 12 months involves expanding into the European market, requiring extensive integration with ETCS (European Train Control System) standards. We are also scaling our team, bringing on top-tier talent in machine learning, embedded systems, and safety compliance.</p>\n    <p>We are grateful for our partners, our investors, and most importantly, the railway operators who trust us to safeguard their networks. The path ahead is clear, and we are accelerating.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  },
+  {
+    "id": 26,
+    "title": "What's Next for UNDISCOVEREDPATH: 2027 Roadmap",
+    "category": "AI & Machine Learning",
+    "date": "June 15, 2026",
+    "author": "David Chen",
+    "readTime": "5 min read",
+    "excerpt": "An in-depth look at what's next for undiscoveredpath: 2027 roadmap and how it shapes the future of railway technology.",
+    "content": "\n    <p>Artificial Intelligence is no longer just a buzzword in transportation; it is a critical safety component. <strong>What's Next for UNDISCOVEREDPATH: 2027 Roadmap</strong> represents a monumental shift in how we process dynamic environmental variables.</p>\n    <h3>Data Pipeline and Model Training</h3>\n    <p>Training our models requires ingesting petabytes of historical telemetry and video feed data. We utilize a hybrid cloud-edge training infrastructure. In the cloud, massive compute clusters run thousands of simulated collision scenarios per hour, utilizing generative adversarial networks (GANs) to synthesize edge cases that rarely occur in the real world.</p>\n    <p>The models are heavily quantized before deployment. We compress billions of parameters into models small enough to run on local inferencing units inside the locomotive. This ensures that even if the train loses all network connectivity, the AI continues to function at 100% efficacy.</p>\n    <h3>Inference at the Edge</h3>\n    <p>When the model runs on the train, it operates on a strict 10-millisecond cycle. It reads inputs from LIDAR, radar, and optical cameras, processes the unified state, and outputs a confidence score for potential path incursions. If the risk exceeds the threshold, the system physically engages the braking mechanism.</p>\n    <p>Continuous learning is achieved through asynchronous telemetry uploads. When the train returns to a high-bandwidth yard, it uploads instances where the AI's confidence was low, feeding the next iteration of our training loop.</p>\n  \n    <h3>Conclusion &amp; Next Steps</h3>\n    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>\n    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>\n  "
+  }
 ];
 
-// ─── Export — dates are always relative to today ──────────────────────────────
+export const getBlogArticles = () => {
+  if (typeof window === 'undefined') return blogArticles;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    if (local) {
+      const parsed = JSON.parse(local);
+      return [...parsed, ...blogArticles];
+    }
+  } catch (e) {
+    console.error("Error reading custom blogs from localStorage:", e);
+  }
+  return blogArticles;
+};
 
-const authorsData = {
-  "Sarah Jenkins": {
-    bio: "Lead AI Engineer specializing in predictive modeling and embedded neural networks for safety-critical systems.",
-    title: "Lead AI Engineer"
-  },
-  "David Chen": {
-    bio: "Senior Backend Architect focusing on high-throughput, low-latency telemetry pipelines and edge computing.",
-    title: "Senior Backend Architect"
-  },
-  "Dr. Elena Rostova": {
-    bio: "Head of Safety Research with a Ph.D. in Embedded Systems. Dedicated to fault-tolerant hardware and compliance.",
-    title: "Head of Safety Research"
+export const saveBlogArticle = (newArticle) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    const list = local ? JSON.parse(local) : [];
+    const index = list.findIndex(a => a.id === newArticle.id);
+    if (index >= 0) {
+      list[index] = newArticle;
+    } else {
+      list.unshift(newArticle);
+    }
+    localStorage.setItem('undiscoveredpath_custom_blogs', JSON.stringify(list));
+  } catch (e) {
+    console.error("Error saving custom blog to localStorage:", e);
   }
 };
 
-export const blogArticles = articleDefs.map((def, i) => ({
-  id:       def.id,
-  title:    def.title,
-  category: def.category,
-  // Article 0 = today, article 1 = yesterday, etc.
-  date:     getDate(i),
-  author:   def.author,
-  authorTitle: authorsData[def.author]?.title || 'Contributor',
-  authorBio: authorsData[def.author]?.bio || 'Engineering contributor at UNDISCOVEREDPATH.',
-  readTime: def.readTime,
-  excerpt:  `An in-depth look at ${def.title.toLowerCase()} and how it shapes the future of railway technology.`,
-  content:  def.contentFn(def.title),
-}));
+export const deleteBlogArticle = (id) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    if (!local) return;
+    let list = JSON.parse(local);
+    list = list.filter(a => a.id !== id);
+    localStorage.setItem('undiscoveredpath_custom_blogs', JSON.stringify(list));
+  } catch (e) {
+    console.error("Error deleting custom blog from localStorage:", e);
+  }
+};

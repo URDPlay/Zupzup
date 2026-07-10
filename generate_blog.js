@@ -3,6 +3,7 @@ import fs from 'fs';
 const categories = ['AI & Machine Learning', 'Railway Safety', 'IoT & Hardware', 'Engineering', 'Company News'];
 
 const titles = [
+  "Introducing Version 3.3.0: Intelligent Sensor Fusion and Drone-Assisted Track Inspections",
   "The Future of Predictive Braking in High-Speed Rail",
   "How We Scaled Our WebSocket Infrastructure for 10,000 Trains",
   "Deep Learning Models for Weather-Adaptive Collision Avoidance",
@@ -75,20 +76,32 @@ const templates = {
 };
 
 const generateContent = (title, category) => {
+  if (title.includes("Version 3.3.0")) {
+    return `
+      <p>We are thrilled to announce the official release of <strong>Version 3.3.0</strong> of the UNDISCOVEREDPATH Railway Intelligence System. This release introduces two major technological breakthroughs: <strong>Intelligent Multi-Modal Sensor Fusion</strong> and <strong>Drone-Assisted Track Anomaly Sweepers</strong>.</p>
+      <h3>Intelligent Multi-Modal Sensor Fusion</h3>
+      <p>Locomotives now run our next-generation neural path fusion model at the edge. By combining real-time data from solid-state LIDAR, millimeter-wave radar, and high-framerate optical cameras, the AI constructs a unified 3D spatial vector of the track ahead. This sensor fusion increases threat detection reliability by 24% under extreme weather conditions (such as heavy monsoon rains and dense fog) and eliminates sensor blind spots.</p>
+      <h3>Drone-Assisted Track Inspections</h3>
+      <p>Version 3.3.0 introduces telemetry integration with autonomous track-sweeping drones. These drones fly ahead of trains in low-visibility zones, scanning the tracks for structural anomalies, landslides, or crossing incursions, and stream high-bandwidth telemetry directly back to our edge controllers. If an obstacle is detected, the train's AI guardian is notified up to 60 seconds before arrival, allowing for a smooth and gradual deceleration.</p>
+      <h3>Edge-Processing Speed Envelopes</h3>
+      <p>The system now dynamically adapts the safe speed envelope based on real-time atmospheric visibility telemetry. If visibility drops below 1.2 kilometers, the AI applies a non-intrusive speed restriction, ensuring that the train's deceleration curve is always aligned with its sensor horizons.</p>
+    `;
+  }
   const template = templates[category] || templates['Engineering'];
   const base = template(title);
   
-  const padding = `
-    <h3>Conclusion & Next Steps</h3>
-    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
-    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
-  `;
-  
-  return base + padding;
+  return base;
 };
 
 const articles = titles.map((title, i) => {
   const category = categories[i % categories.length];
+  const baseContent = generateContent(title, category);
+  const padding = `
+    <h3>Conclusion &amp; Next Steps</h3>
+    <p>As we continue to iterate on these concepts, the feedback loop between our engineering teams and field operators remains our most valuable asset. We are constantly monitoring telemetry, analyzing edge cases, and refining our approach. The complexity of the railway environment means that our work is never truly 'done'—it is an ongoing process of continuous improvement and relentless pursuit of safety.</p>
+    <p>For more detailed technical specifications and API documentation related to these updates, our engineering portal has been updated with the latest integration guides. We encourage the community and our partners to review the whitepapers associated with this release.</p>
+  `;
+
   return {
     id: i + 1,
     title: title,
@@ -97,11 +110,61 @@ const articles = titles.map((title, i) => {
     author: i % 3 === 0 ? 'Sarah Jenkins' : i % 3 === 1 ? 'David Chen' : 'Dr. Elena Rostova',
     readTime: (Math.floor(Math.random() * 8) + 4) + ' min read',
     excerpt: 'An in-depth look at ' + title.toLowerCase() + ' and how it shapes the future of railway technology.',
-    content: generateContent(title, category)
+    content: baseContent + padding
   };
 });
 
-const fileContent = 'export const blogArticles = ' + JSON.stringify(articles, null, 2) + ';';
+const fileContent = `// ─── Dynamic Blog Data ───────────────────────────────────────────────────────
+// Dates are computed at runtime relative to today so the blog always stays
+// fresh. Article 0 = today, article 1 = yesterday, and so on.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const blogArticles = ${JSON.stringify(articles, null, 2)};
+
+export const getBlogArticles = () => {
+  if (typeof window === 'undefined') return blogArticles;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    if (local) {
+      const parsed = JSON.parse(local);
+      return [...parsed, ...blogArticles];
+    }
+  } catch (e) {
+    console.error("Error reading custom blogs from localStorage:", e);
+  }
+  return blogArticles;
+};
+
+export const saveBlogArticle = (newArticle) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    const list = local ? JSON.parse(local) : [];
+    const index = list.findIndex(a => a.id === newArticle.id);
+    if (index >= 0) {
+      list[index] = newArticle;
+    } else {
+      list.unshift(newArticle);
+    }
+    localStorage.setItem('undiscoveredpath_custom_blogs', JSON.stringify(list));
+  } catch (e) {
+    console.error("Error saving custom blog to localStorage:", e);
+  }
+};
+
+export const deleteBlogArticle = (id) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const local = localStorage.getItem('undiscoveredpath_custom_blogs');
+    if (!local) return;
+    let list = JSON.parse(local);
+    list = list.filter(a => a.id !== id);
+    localStorage.setItem('undiscoveredpath_custom_blogs', JSON.stringify(list));
+  } catch (e) {
+    console.error("Error deleting custom blog from localStorage:", e);
+  }
+};
+`;
 
 fs.writeFileSync('./src/blogData.js', fileContent);
 console.log('Blog data generated successfully.');

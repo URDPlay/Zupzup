@@ -143,14 +143,14 @@ export const ContactPage = ({ onBack }) => (
           <div style={{ background: '#E6F4EA', color: '#34A853', padding: '16px', borderRadius: '16px' }}><Phone size={28} /></div>
           <div>
             <h4 style={{ margin: 0, fontSize: '18px', color: 'var(--text-main)', fontWeight: 'bold' }}>Phone</h4>
-            <p style={{ margin: '4px 0 0', fontSize: '16px', fontWeight: '500' }}>+1 (800) 555-0199</p>
+            <p style={{ margin: '4px 0 0', fontSize: '16px', fontWeight: '500' }}>+91 9031312461</p>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <div style={{ background: '#FEF7E0', color: '#FBBC05', padding: '16px', borderRadius: '16px' }}><MapPin size={28} /></div>
           <div>
-            <h4 style={{ margin: 0, fontSize: '18px', color: 'var(--text-main)', fontWeight: 'bold' }}>Office</h4>
-            <p style={{ margin: '4px 0 0', fontSize: '16px' }}>128 Innovation Drive<br/>Tech District, CA 94103</p>
+            <h4 style={{ margin: 0, fontSize: '18px', color: 'var(--text-main)', fontWeight: 'bold' }}>India Office</h4>
+            <p style={{ margin: '4px 0 0', fontSize: '16px' }}>Koramangala, 5th Block<br/>Bengaluru, Karnataka 560034</p>
           </div>
         </div>
       </div>

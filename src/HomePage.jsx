@@ -6,7 +6,7 @@ import {
   Lock, Eye, Clock, Star, Menu, X, Play, TrendingUp,
   ExternalLink, Database, Globe, Search
 } from 'lucide-react';
-import { blogArticles } from './blogData';
+import { getBlogArticles } from './blogData';
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
 function useScrollY() {
@@ -737,6 +737,11 @@ function AdBanner({ slotId }) {
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 export default function HomePage({ onLaunch, onNavigate }) {
+  const [articles, setArticles] = useState([]);
+  useEffect(() => {
+    setArticles(getBlogArticles());
+  }, []);
+
   const features = [
     { icon: <Cpu size={22} />, title: 'Predictive Collision AI', description: 'Neural networks analyse speed, trajectory and track topology to flag hazards 10–20 seconds before impact.', accent: '#2563eb', delay: 0 },
     { icon: <Zap size={22} />, title: 'Autonomous Emergency Braking', description: 'When risk exceeds critical thresholds the system engages brakes independently — no human reaction time required.', accent: '#7c3aed', delay: 0.06 },
@@ -944,7 +949,7 @@ export default function HomePage({ onLaunch, onNavigate }) {
           </motion.div>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', width: '100%', maxWidth: '652px' }}>
-            {blogArticles.slice(0, 3).map((article) => (
+            {articles.slice(0, 3).map((article) => (
               <article key={article.id} style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
                   <span style={{ fontSize: '14px', color: '#202124' }}>

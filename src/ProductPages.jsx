@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, Cpu, Map, GitBranch, ShieldAlert, Zap, Server } from 'lucide-react';
 
@@ -87,15 +87,15 @@ export const RoadmapPage = ({ onBack }) => (
     
     <div style={{ position: 'relative', paddingLeft: '24px', borderLeft: '3px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '40px' }}>
       {[
-        { q: 'Q3 2026', title: 'Computer Vision Integration', status: 'In Progress', color: 'var(--primary)' },
+        { q: 'Q3 2026', title: 'Computer Vision & Sensor Fusion', status: 'Completed', color: 'var(--success)' },
         { q: 'Q4 2026', title: 'Global Weather API Sync', status: 'Planning', color: 'var(--warning)' },
-        { q: 'Q1 2027', title: 'Drone-Assisted Track Sweeping', status: 'Research', color: 'var(--text-muted)' },
+        { q: 'Q1 2027', title: 'Drone-Assisted Track Sweeping', status: 'Beta Testing', color: 'var(--primary)' },
       ].map((item, i) => (
         <div key={i} style={{ position: 'relative' }}>
           <div style={{ position: 'absolute', left: '-33.5px', top: '0', width: '16px', height: '16px', borderRadius: '50%', background: item.color, border: '3px solid white' }}></div>
           <span style={{ fontSize: '14px', fontWeight: 'bold', color: item.color, textTransform: 'uppercase', letterSpacing: '1px' }}>{item.q}</span>
           <h3 style={{ fontSize: '22px', fontWeight: 'bold', margin: '8px 0', color: 'var(--text-main)' }}>{item.title}</h3>
-          <span style={{ background: 'var(--bg-color)', padding: '4px 12px', borderRadius: '100px', fontSize: '13px', fontWeight: 'bold', color: 'var(--text-muted)' }}>{item.status}</span>
+          <span style={{ background: 'var(--bg-color)', padding: '4px 12px', borderRadius: '100px', fontSize: '13px', fontWeight: 'bold', color: item.color }}>{item.status}</span>
         </div>
       ))}
     </div>
@@ -109,8 +109,20 @@ export const ChangelogPage = ({ onBack }) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--text-main)', margin: 0 }}>v3.2.0 - Weather Intelligence</h3>
+          <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--text-main)', margin: 0 }}>v3.3.0 - Intelligent Sensor Fusion & Drones</h3>
           <span style={{ background: 'var(--success)', color: 'white', padding: '4px 10px', borderRadius: '100px', fontSize: '12px', fontWeight: 'bold' }}>Latest</span>
+        </div>
+        <ul style={{ paddingLeft: '20px', fontSize: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <li>Integrated multi-modal path fusion for LIDAR, Radar, and optical cameras.</li>
+          <li>Added support for autonomous sweeping drones that stream obstacle telemetry to trains.</li>
+          <li>Implemented visibility-based edge-processing speed restrictions (speed caps).</li>
+        </ul>
+      </div>
+
+      <div className="card" style={{ opacity: 0.8 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--text-main)', margin: 0 }}>v3.2.0 - Weather Intelligence</h3>
+          <span style={{ color: 'var(--text-muted)', fontSize: '14px', fontWeight: 'bold' }}>June 12, 2026</span>
         </div>
         <ul style={{ paddingLeft: '20px', fontSize: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <li>Added dynamic braking distance multipliers based on rain/snow.</li>
